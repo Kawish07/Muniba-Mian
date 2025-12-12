@@ -4,7 +4,6 @@ import { Instagram, Facebook, MapPin, Bed, Bath, Maximize } from 'lucide-react';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import { getDummyListings } from './data/dummyListings';
-import profilePic from './Public/images/Philip_profile_picture.png';
 import { useEffect, useRef } from 'react';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -204,7 +203,7 @@ export default function AllListings({ onBack }) {
             <section className="relative h-screen">
                 <div className="absolute inset-0">
                     <img
-                        src={profilePic}
+                        src={'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1600&q=80'}
                         alt="Philip profile"
                         className="w-full h-full object-cover"
                         style={{ objectPosition: 'center 10%' }}
