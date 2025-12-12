@@ -13,17 +13,6 @@ server/uploads/
 server/public/uploads/
 server/temp/
 
-# Large media files
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.bmp
-*.webp
-*.mp4
-*.mov
-*.avi
-
 # Or be more specific if you want to keep some images
 # !src/Public/images/keep-this-one.jpg
 "@
