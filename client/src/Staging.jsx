@@ -105,8 +105,8 @@ const BeforeAfterSlider = ({ before, after, title }) => {
 const properties = [
     {
         title: 'Elegant Living Room Transformation',
-        before: 'images/Living Room.jpg', // Empty bedroom
-        after: 'images/Living room after.jpg' // Staged bedroom
+        before: 'images/Living Room.jpeg', // Empty bedroom
+        after: 'images/living room after.jpeg'
     }
 ];
 
