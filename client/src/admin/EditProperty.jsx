@@ -9,10 +9,10 @@ export default function EditProperty() {
   const [form, setForm] = useState({
     title: '',
     address: '',
-    price: 0,
-    beds: 0,
-    baths: 0,
-    livingArea: 0,
+    price: '',
+    beds: '',
+    baths: '',
+    livingArea: '',
     sqft: '',
     status: 'active',
     image: '',
@@ -24,10 +24,10 @@ export default function EditProperty() {
     requestInfo: true,
     features: '',
     amenities: '',
-    totalBedrooms: 0,
-    totalBathrooms: 0,
-    fullBathrooms: 0,
-    threeQuarterBathrooms: 0
+    totalBedrooms: '',
+    totalBathrooms: '',
+    fullBathrooms: '',
+    threeQuarterBathrooms: ''
   });
   const [loading, setLoading] = useState(false);
   const [imageFiles, setImageFiles] = useState([]);

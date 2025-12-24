@@ -568,8 +568,8 @@ export default function AdminDashboard() {
                   filtered = listings.filter(l => l.status === 'sold');
                   if (ownedOnly) filtered = filtered.filter(l => (l.agent || '').toLowerCase() === (admin.name || '').toLowerCase());
                 } else {
-                  // default: show most recent 5
-                  filtered = listings.slice(0, 5);
+                  // default: show all listings
+                  filtered = listings;
                 }
 
                 if (!filtered || filtered.length === 0) {

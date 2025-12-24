@@ -122,7 +122,7 @@ export default function Staging() {
                     <div className="h-full">
                         <div
                             className="h-full bg-cover bg-center"
-                            style={{ backgroundImage: `url('images/Philip_ottawa.png')` }}
+                            style={{ backgroundImage: `url('/images/philipnewimage2.jpg')` }}
                         />
                     </div>
                     <div className="flex items-center justify-center bg-white p-12">

@@ -14,6 +14,27 @@ export default function ListingDetail() {
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [contactOpen, setContactOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewIndex, setPreviewIndex] = useState(0);
+
+  const openPreview = (index = 0) => {
+    setPreviewIndex(index || 0);
+    setPreviewOpen(true);
+  };
+
+  const closePreview = () => setPreviewOpen(false);
+
+  const showNext = (e) => {
+    e && e.stopPropagation();
+    const imgs = ((listing.images && listing.images.length) ? listing.images : (listing.image ? [listing.image] : []));
+    setPreviewIndex((i) => (i + 1) % imgs.length);
+  };
+
+  const showPrev = (e) => {
+    e && e.stopPropagation();
+    const imgs = ((listing.images && listing.images.length) ? listing.images : (listing.image ? [listing.image] : []));
+    setPreviewIndex((i) => (i - 1 + imgs.length) % imgs.length);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -39,6 +60,17 @@ export default function ListingDetail() {
         setLoading(false);
       });
   }, [id]);
+
+  // handle Escape to close preview
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') closePreview();
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
+    };
+    if (previewOpen) window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [previewOpen, listing]);
 
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading…</div>;
   if (!listing) return <div className="min-h-screen flex items-center justify-center">Listing not found.</div>;
@@ -67,15 +99,26 @@ export default function ListingDetail() {
       <main className="max-w-7xl mx-auto py-16 px-6">
         <div className="grid md:grid-cols-2 gap-12">
             <div>
-            <img src={(listing.images && listing.images[0]) || listing.image} alt={listing.title} className="w-full h-[500px] object-cover rounded-sm" />
+              <img
+                src={(listing.images && listing.images[0]) || listing.image}
+                alt={listing.title}
+                className="w-full h-[500px] object-cover rounded-sm cursor-pointer"
+                onClick={() => openPreview(0)}
+              />
 
-            {/* gallery - show all provided images (up to 12) */}
-            <div className="mt-6 grid grid-cols-3 gap-3">
-              {((listing.images && listing.images.length) ? listing.images : (listing.image ? [listing.image] : [])).slice(0,12).map((src, i) => (
-                <img key={i} src={src} alt={`gallery-${i}`} className="w-full h-24 object-cover rounded" />
-              ))}
+              {/* gallery - show all provided images (up to 12) */}
+              <div className="mt-6 grid grid-cols-3 gap-3">
+                {((listing.images && listing.images.length) ? listing.images : (listing.image ? [listing.image] : [])).slice(0,12).map((src, i) => (
+                  <img
+                    key={i}
+                    src={src}
+                    alt={`gallery-${i}`}
+                    className="w-full h-24 object-cover rounded cursor-pointer"
+                    onClick={() => openPreview(i)}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
 
           <div>
             <div className="flex items-center gap-4 mb-4">
@@ -91,7 +134,7 @@ export default function ListingDetail() {
             </div>
 
             <h2 className="text-3xl font-serif mb-2">{listing.title}</h2>
-            <p className="text-2xl font-serif text-gray-900 mb-4">{listing.price}</p>
+            <p className="text-2xl font-serif text-gray-900 mb-4">${listing.price}</p>
             <p className="text-sm text-gray-600 mb-6 leading-relaxed">{listing.description}</p>
             {listing.requestInfo !== false && (
               <button onClick={() => setContactOpen(true)} className="bg-black text-white px-8 py-3 mb-6 hover:bg-gray-800 transition-colors">
@@ -216,6 +259,55 @@ export default function ListingDetail() {
       </main>
 
       <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+
+      {/* Image preview modal/slider */}
+      {previewOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70" onClick={closePreview}>
+          <div className="relative max-w-[90vw] max-h-[90vh] w-full">
+            <button
+              className="absolute top-4 right-4 text-white bg-black/50 rounded-full p-2 z-20"
+              onClick={(e) => { e.stopPropagation(); closePreview(); }}
+              aria-label="Close preview"
+            >
+              ✕
+            </button>
+
+            <button
+              className="absolute left-2 top-1/2 -translate-y-1/2 text-white bg-black/30 rounded-full p-3 z-20"
+              onClick={(e) => { e.stopPropagation(); showPrev(e); }}
+              aria-label="Previous"
+            >
+              ‹
+            </button>
+
+            <button
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-white bg-black/30 rounded-full p-3 z-20"
+              onClick={(e) => { e.stopPropagation(); showNext(e); }}
+              aria-label="Next"
+            >
+              ›
+            </button>
+
+            <div className="w-full h-full flex items-center justify-center">
+              <img
+                src={((listing.images && listing.images.length) ? listing.images : (listing.image ? [listing.image] : []))[previewIndex]}
+                alt={`preview-${previewIndex}`}
+                className="max-w-full max-h-[80vh] object-contain mx-auto"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+
+            {/* thumbnails */}
+            <div className="mt-4 flex gap-2 overflow-x-auto px-2">
+              {((listing.images && listing.images.length) ? listing.images : (listing.image ? [listing.image] : [])).map((src, i) => (
+                <button key={i} onClick={(e) => { e.stopPropagation(); setPreviewIndex(i); }} className={`rounded overflow-hidden border ${i === previewIndex ? 'ring-2 ring-white' : 'ring-0'}`}>
+                  <img src={src} alt={`thumb-${i}`} className="w-24 h-16 object-cover" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
