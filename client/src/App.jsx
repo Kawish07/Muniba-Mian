@@ -576,7 +576,7 @@ export default function App() {
             <video
               ref={videoRef}
               className="absolute top-0 left-0 w-full h-full object-cover"
-              poster="/images/philipnewimage1.jpg"
+              poster="/images/philipnewimage2.jpg"
               onClick={handleVideoPlay}
             >
               <source src="/videos/video.mp4" type="video/mp4" />
