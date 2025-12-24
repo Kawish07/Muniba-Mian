@@ -1,4 +1,5 @@
 const Contact = require('../models/Contact');
+const { sendNotificationEmail } = require('../lib/mailer');
 
 exports.create = async (req, res) => {
   try {
@@ -16,6 +17,16 @@ exports.create = async (req, res) => {
       message: message || '',
       consent: !!consent
     });
+    // Send notification email
+    try {
+      await sendNotificationEmail({
+        subject: 'New Contact Form Submission',
+        text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone || ''}\nMessage: ${message || ''}`,
+        html: `<h2>New Contact Form Submission</h2><p><b>Name:</b> ${name}<br/><b>Email:</b> ${email}<br/><b>Phone:</b> ${phone || ''}<br/><b>Message:</b> ${message || ''}</p>`
+      });
+    } catch (mailErr) {
+      console.error('Failed to send contact email:', mailErr);
+    }
     console.log('Contact saved id=', created._id);
     res.status(201).json(created);
   } catch (e) {

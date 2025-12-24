@@ -1,4 +1,5 @@
 const LetsConnect = require('../models/LetsConnect');
+const { sendNotificationEmail } = require('../lib/mailer');
 
 exports.create = async (req, res) => {
   try {
@@ -6,6 +7,18 @@ exports.create = async (req, res) => {
     if (!name || !email || !bestTime) return res.status(400).json({ error: 'Missing required fields' });
     const bt = bestTime ? new Date(bestTime) : null;
     const created = await LetsConnect.create({ name, email, phone: phone || '', bestTime: bt, timezone: timezone || 'ET' });
+
+    // Send notification email
+    try {
+      await sendNotificationEmail({
+        subject: 'New LetsConnect Submission',
+        text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone || ''}\nBest Time: ${bestTime}\nTimezone: ${timezone || 'ET'}`,
+        html: `<h2>New LetsConnect Submission</h2><p><b>Name:</b> ${name}<br/><b>Email:</b> ${email}<br/><b>Phone:</b> ${phone || ''}<br/><b>Best Time:</b> ${bestTime}<br/><b>Timezone:</b> ${timezone || 'ET'}</p>`
+      });
+    } catch (mailErr) {
+      console.error('Failed to send letsconnect email:', mailErr);
+    }
+
     res.status(201).json(created);
   } catch (e) {
     console.error('Create letsconnect error', e);

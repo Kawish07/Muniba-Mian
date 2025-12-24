@@ -203,10 +203,10 @@ export default function AllListings({ onBack }) {
             <section className="relative h-screen">
                 <div className="absolute inset-0">
                     <img
-                        src={'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1600&q=80'}
+                        src={'/images/philip_profile_picture.png'}
                         alt="Philip profile"
-                        className="w-full h-full object-cover"
-                        style={{ objectPosition: 'center 10%' }}
+                        className="w-full h-full object-contain"
+                        style={{ objectPosition: 'center 50%' }}
                         draggable={false}
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-40" />
