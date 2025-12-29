@@ -156,9 +156,6 @@ export default function Footer() {
             <div className="flex items-center space-x-6">
               <p className="text-sm font-light">
                 Copyright © 2025 |{" "}
-                <a href="#" className="underline hover:opacity-70">
-                  Privacy Policy
-                </a>
               </p>
               <div className="flex space-x-3">
                 <a
