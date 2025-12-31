@@ -5,6 +5,7 @@ import { X, Instagram, Facebook } from "lucide-react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { getLenis } from "./lib/lenis";
+import { resolveImage, ensureProtocol } from "./lib/image";
 import PageLoader from "./components/PageLoader";
 import TransitionSplash from "./components/TransitionSplash";
 import FloatingCTA from "./components/FloatingCTA";
@@ -518,7 +519,7 @@ export default function App() {
                 featuredListing &&
                 featuredListing.images &&
                 featuredListing.images.length
-                  ? featuredListing.images[0]
+                  ? ensureProtocol(resolveImage(featuredListing.images[0]))
                   : "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=800&fit=crop"
               }
               alt={

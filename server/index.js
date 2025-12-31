@@ -1,24 +1,33 @@
+// ===== ENV SETUP (MUST BE FIRST) =====
+const dotenv = require('dotenv');
+
+dotenv.config({
+  path: process.env.NODE_ENV === 'production'
+    ? '.env.production'
+    : '.env'
+});
+
+// ===== IMPORTS =====
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
-
-const apiRoutes = require('./routes');
-const { uploadsDir } = require('./middlewares/upload');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
-// ensure uploads folder exists (upload middleware also does this)
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+const apiRoutes = require('./routes');
+const { uploadsDir } = require('./middlewares/upload');
 
+// ===== ENSURE UPLOADS DIRECTORY EXISTS =====
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 const app = express();
 
-// security headers
-// Configure helmet with a permissive img-src so images served from HTTPS domains (e.g. your real domains)
-// are allowed. This prevents CSP from blocking images when frontend and uploads are served from different subdomains.
+// ===== TRUST PROXY (NGINX / VPS) =====
+app.set('trust proxy', 1);
+
+// ===== SECURITY HEADERS =====
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -34,109 +43,140 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' }
 }));
 
-
-// basic rate limiting: protect against brute-force and abusive clients
+// ===== RATE LIMITING =====
 const limiter = rateLimit({
-  windowMs: Number(process.env.RATE_WINDOW_MS || 60 * 1000), // 1 minute
-  max: Number(process.env.RATE_MAX || 120), // limit each IP to 120 requests per window
+  windowMs: Number(process.env.RATE_WINDOW_MS || 60 * 1000),
+  max: Number(process.env.RATE_MAX || 120),
   standardHeaders: true,
-  legacyHeaders: false,
+  legacyHeaders: false
 });
 app.use(limiter);
-// Configure CORS: allow permissive access during development, stricter in production
-// Configure CORS origins from environment for flexibility.
-// Set CORS_ORIGIN to a comma-separated list of allowed origins (no spaces).
-// Example: CORS_ORIGIN=https://parnanzonehomes.com,https://admin.parnanzonehomes.com
+
+// ===== CORS CONFIGURATION (FIXED) =====
 const rawOrigins = process.env.CORS_ORIGIN || '';
-const allowedOrigins = rawOrigins ? rawOrigins.split(',').map(o => o.trim()) : [
-  'https://parnanzonehomes.com',
-  'https://www.parnanzonehomes.com',
-  'https://admin.parnanzonehomes.com'
-];
+const allowedOrigins = rawOrigins
+  ? rawOrigins.split(',').map(o => o.trim())
+  : [
+      'https://parnanzonehomes.com',
+      'https://www.parnanzonehomes.com',
+      'https://admin.parnanzonehomes.com'
+    ];
+
+console.log('✅ Allowed CORS origins:', allowedOrigins);
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, Postman, curl)
-    if (!origin) return callback(null, true);
-    
-    // Allow localhost ONLY in development or when explicitly enabled
-    const allowLocal = process.env.NODE_ENV !== 'production' || process.env.ALLOW_LOCAL_DEV === 'true';
-    if (allowLocal && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin)) {
+    // Allow server-to-server, Postman, curl (no origin header)
+    if (!origin) {
       return callback(null, true);
     }
-    
-    // Check against whitelist
+
+    // Allow localhost only in dev or explicitly enabled
+    const allowLocal =
+      process.env.NODE_ENV !== 'production' ||
+      process.env.ALLOW_LOCAL_DEV === 'true';
+
+    if (
+      allowLocal &&
+      /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin)
+    ) {
+      console.log('✅ CORS: Allowed localhost origin:', origin);
+      return callback(null, true);
+    }
+
+    // Check if origin is in allowed list
     if (allowedOrigins.includes(origin)) {
+      console.log('✅ CORS: Allowed origin:', origin);
       return callback(null, true);
     }
-    
-    // Log rejection for debugging
-    console.warn(`[CORS] Rejected origin: ${origin} | Allowed: ${allowedOrigins.join(', ')}`);
-    return callback(new Error('CORS policy: Origin not allowed'), false);
+
+    // CRITICAL FIX: Don't pass Error object, just return false
+    console.warn(
+      `⚠️  CORS: Rejected origin: ${origin} | Allowed: ${allowedOrigins.join(', ')}`
+    );
+    return callback(null, false); // Changed from callback(new Error(...), false)
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200 // For legacy browser support
 }));
-// limit JSON payload size
-app.use(express.json({ limit: process.env.JSON_LIMIT || '1mb' }));
 
-// limit urlencoded bodies
-app.use(express.urlencoded({ extended: true, limit: process.env.JSON_LIMIT || '1mb' }));
+// ===== BODY SIZE LIMITS =====
+const jsonLimit = process.env.JSON_LIMIT || '1mb';
+app.use(express.json({ limit: jsonLimit }));
+app.use(express.urlencoded({ extended: true, limit: jsonLimit }));
 
-// Simple request logger to help debug CORS/origin issues in production
+// ===== REQUEST LOGGER =====
 app.use((req, res, next) => {
   try {
-    const origin = req.headers.origin || '-';
-    const host = req.headers.host || '-';
-    const method = req.method;
-    const path = req.originalUrl || req.url;
-    console.log(`[req] ${method} ${path} host=${host} origin=${origin}`);
-  } catch (e) {
-    // noop
-  }
+    console.log(
+      `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} | Origin: ${req.headers.origin || 'none'} | Host: ${req.headers.host || '-'}`
+    );
+  } catch (e) {}
   next();
 });
 
-// Lightweight health endpoint
+// ===== HEALTH CHECK =====
 app.get('/health', (req, res) => {
-  res.json({ ok: true, uptime: process.uptime(), env: process.env.NODE_ENV || 'development' });
+  res.json({
+    ok: true,
+    uptime: process.uptime(),
+    env: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString()
+  });
 });
 
-// Debug: list uploads (only when DEBUG_UPLOADS env var is 'true')
+// ===== DEBUG UPLOADS (DISABLED BY DEFAULT) =====
 app.get('/debug/uploads', (req, res) => {
-  // Keep debug disabled unless explicitly enabled
-  if (process.env.DEBUG_UPLOADS !== 'true') return res.status(404).json({ error: 'Not found' });
+  if (process.env.DEBUG_UPLOADS !== 'true') {
+    return res.status(404).json({ error: 'Not found' });
+  }
   try {
-    const files = fs.readdirSync(uploadsDir).filter(f => f && f[0] !== '.');
-    return res.json({ ok: true, count: files.length, files });
-  } catch (e) {
-    return res.status(500).json({ error: 'Failed to read uploads', details: e.message });
+    const files = fs.readdirSync(uploadsDir).filter(f => f[0] !== '.');
+    res.json({ ok: true, count: files.length, files });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read uploads' });
   }
 });
 
-// serve uploaded files
+// ===== STATIC UPLOADS =====
 app.use('/uploads', express.static(uploadsDir));
 
-const MONGO = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/realestate';
-mongoose.connect(MONGO, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB connection error', err));
+// ===== DATABASE CONNECTION =====
+if (!process.env.MONGO_URI) {
+  throw new Error('❌ MONGO_URI is not defined');
+}
 
-// mount API routes (MVC)
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('✅ MongoDB connected'))
+.catch(err => {
+  console.error('❌ MongoDB connection error', err);
+  process.exit(1);
+});
+
+// ===== API ROUTES =====
 app.use('/api', apiRoutes);
 
-// Fallback 404 for unknown API routes to ensure requests hit this app when routed here
+// ===== API 404 FALLBACK =====
 app.use('/api', (req, res) => {
   res.status(404).json({ error: 'API route not found' });
 });
 
+// ===== SERVER START =====
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
+const server = app.listen(PORT, () => {
+  console.log(`🚀 Server listening on port ${PORT}`);
+  console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🌐 Allowed Origins: ${allowedOrigins.join(', ')}`);
+});
 
-// Graceful shutdown
+// ===== GRACEFUL SHUTDOWN =====
 const shutdown = () => {
-  console.log('Shutting down...');
+  console.log('🛑 Shutting down...');
   server.close(() => {
     mongoose.disconnect().then(() => process.exit(0));
   });
@@ -146,9 +186,9 @@ const shutdown = () => {
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);
 
-// Global error handler
+// ===== GLOBAL ERROR HANDLER =====
 app.use((err, req, res, next) => {
-  console.error('Unhandled error', err);
+  console.error('❌ Unhandled error:', err);
   if (res.headersSent) return next(err);
   res.status(500).json({ error: 'Internal server error' });
 });
