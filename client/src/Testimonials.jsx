@@ -7,9 +7,27 @@ export default function Testimonials() {
   const testimonials = [
     {
       id: 1,
-      title: "Prompt and Professional Service",
+      title: "Down to Earth & Stress Free",
       preview:
-        "Conception Pena was very prompt in returning my calls and scheduling a viewing. He also answered all my questions to my satisfaction.",
+        "Don was the listing agent for our home. He is knowledgeable of the real estate market. We greatly appreciated his effort to get us the best price for our home. Don stayed in contact from the day our home was listed to the day our home closed. Most importantly, Don is a down to earth guy who makes a real estate transaction stress free.",
+    },
+    {
+      id: 2,
+      title: "Very Helpful and Kind",
+      preview:
+        "Don was very helpful when selling our home. He explained the process was very kind, patient, and polite. We have been able to even ask questions about buying and he has done his best to answer. He went out of his way to make this sale happen and it was done quickly! I always go by reviews and the previous reviewers were spot on with how great he is! The company he works for is lucky to have him on their team! Would highly recommend especially if you are like me and my husband new to this process.",
+    },
+    {
+      id: 3,
+      title: "Highly Recommend Don!",
+      preview:
+        "We highly recommend Don! Very dedicated to finding us our home! Very patient with great advise. If we need realtor services in the future, we will definitely contact Don again.",
+    },
+    {
+      id: 4,
+      title: "Exceptional Service",
+      preview:
+        "Don, Don, Don. Where do I start. Would not have purchased my home from anyone other than Don. He was exceptional. He is very knowledgeable and helpful. Highly recommend his services in real estate. When your looking for a home in his area pick Don. You will see what I mean. It's hard to explain how great he is unless you experience him one on one.",
     },
   ];
 
@@ -23,7 +41,7 @@ export default function Testimonials() {
           className="h-[90vh] md:h-[100vh] bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('https://images.pexels.com/photos/8815917/pexels-photo-8815917.jpeg')",
+              "url('/images/Don3.jpg')",
           }}
         />
         <div className="flex items-center justify-center p-12">
@@ -35,8 +53,7 @@ export default function Testimonials() {
               Testimonials
             </h1>
             <p className="text-base text-gray-700 leading-relaxed mb-8">
-              Read what our clients have to say about working with Concepcion
-              Pena.
+              Read what our clients have to say about working with Don Ashworth.
             </p>
             <button
               onClick={() =>
@@ -44,7 +61,7 @@ export default function Testimonials() {
               }
               className="border border-black px-6 py-3 text-sm hover:bg-black hover:text-white transition-colors"
             >
-              Contact Concepcion
+              Contact Don
             </button>
           </div>
         </div>
@@ -121,7 +138,7 @@ export default function Testimonials() {
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
           <h2 className="text-white text-4xl md:text-5xl font-serif mb-4">
-            Work with Concepcion Pena
+            Work with Don Ashworth
           </h2>
           <p className="text-white text-lg mb-6 font-light">
             Call us today to schedule a private showing

@@ -7,14 +7,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
           <h3 className="text-3xl tracking-widest mb-1 font-light">
-            Concepcion Pena
+            Don Ashworth
           </h3>
           <div className="mb-8 relative">
             <h2 className="text-sm md:text-lg font-light text-white tracking-[0.3em] uppercase">
-              Broker and Owner
+              Real Estate Agent
             </h2>
             <h2 className="text-sm md:text-lg font-light text-white tracking-[0.3em] uppercase">
-              Colonial Real Estate 
+              Watts Auction Realty Appr, Inc
             </h2>
 
             <div className="w-24 h-1 bg-yellow-400 mt-2"></div>
@@ -25,7 +25,9 @@ export default function Footer() {
                 <p className="text-sm tracking-widest mb-4 font-light">
                   LICENSED IN
                 </p>
-                <p className="text-sm tracking-widest font-light">United States</p>
+                <p className="text-sm tracking-widest font-light">
+                  United States
+                </p>
               </div>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
@@ -50,10 +52,10 @@ export default function Footer() {
                         EMAIL
                       </p>
                       <a
-                        href="mailto:concepcionpena1956@yahoo.com"
+                        href="mailto:jus2c@hotmail.com"
                         className="text-sm underline hover:opacity-70 font-light break-all"
                       >
-                        concepcionpena1956@yahoo.com
+                        jus2c@hotmail.com
                       </a>
                     </div>
                   </div>
@@ -84,7 +86,7 @@ export default function Footer() {
                         ADDRESS
                       </p>
                       <p className="text-sm font-light">
-                        10600 Montwood Dr Suite #125, El Paso, TX 79935, United States
+                        7661 Wards Rd, Rustburg, VA 24588, United States
                       </p>
                     </div>
                   </div>
@@ -111,10 +113,10 @@ export default function Footer() {
                       PHONE NUMBER
                     </p>
                     <a
-                      href="tel:+19154786565"
+                      href="tel:+14342217560"
                       className="text-sm underline hover:opacity-70 font-light"
                     >
-                      +1 (915) 478-6565
+                      +1 (434) 221-7560
                     </a>
                   </div>
                 </div>
@@ -132,11 +134,10 @@ export default function Footer() {
               </a>
             </div>
             <p className="text-xs leading-relaxed text-gray-400 max-w-5xl mb-8 font-light">
-              Dedicated to helping buyers and sellers navigate the real estate
-              process with confidence, professionalism, and personalized
-              service. A U.S. Navy veteran with more than 20 years of combined
-              active and reserve service, Concepcion brings discipline,
-              integrity, and strong leadership to every transaction.
+              Virginia-licensed real estate agent and auctioneer specializing in
+              homes, auctions, and investment properties. I put your needs first
+              and guide you every step of the way. Contact me today to explore
+              your real estate options!
             </p>
           </div>
 

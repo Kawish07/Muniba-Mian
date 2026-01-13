@@ -159,9 +159,9 @@ export default function Header({ onBack, light = false }) {
                     <div className="flex items-center">
                         <Link to="/">
                             <img
-                                src="/images/Concepcion_logo-removebg-preview.png"
+                                src="/images/Donlogo.png"
                                 alt="Concepcion Pena Logo"
-                                className="h-24 md:h-28 max-w-[220px] md:max-w-[260px] w-auto object-contain"
+                                className="h-28 md:h-32 max-w-[260px] md:max-w-[320px] w-auto object-contain"
                                 style={{ filter: logoOnDarkBg ? 'brightness(0) invert(1)' : 'none', transition: 'filter 200ms ease' }}
                             />
                         </Link>

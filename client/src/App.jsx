@@ -327,9 +327,9 @@ export default function App() {
         <div className="grid md:grid-cols-2 h-[90vh]">
           <div className="relative h-full overflow-hidden">
             <img
-              src="images/REALESTATEHEROSECTIONIMAGE.jpg"
-              alt="Philip Parnanzone"
-              className="hero-image w-full h-full object-cover transform -translate-y-6 md:-translate-y-10 scale-105"
+              src="images/Don1.jpg"
+              alt="Don Ashworth"
+              className="hero-image w-full h-full object-cover object-top transform translate-y-2 md:translate-y-4 scale-105"
             />
             <div className="absolute bottom-8 left-8 flex space-x-3">
               <a
@@ -348,32 +348,30 @@ export default function App() {
           </div>
           <div className="hero-right flex flex-col justify-start mt-20 md:mt-28 pt-16 md:pt-20 pb-6 px-12 md:px-20 bg-white h-full relative overflow-hidden">
             <div className="absolute right-8 md:right-20 bottom-6 text-gray-100 text-8xl md:text-9xl font-serif font-bold opacity-10 pointer-events-none z-0">
-              Pena
+              Ashworth
             </div>
 
             <div className="relative z-10">
               <h1 className="text-5xl md:text-6xl font-serif mb-3 text-black">
                 <span className="relative inline-block">
-                  Concepcion
+                  Don
                   <span className="absolute bottom-1 left-0 w-full h-3 bg-yellow-200 opacity-60 -z-10"></span>
                 </span>
-                Pena
+                Ashworth
               </h1>
               <div className="mb-8 relative">
                 <h2 className="text-2xl md:text-3xl font-light text-gray-700 tracking-[0.3em] uppercase">
-                  Broker and Owner
+                  Real Estate Agent
                 </h2>
                 <div className="w-24 h-1 bg-yellow-400 mt-3"></div>
               </div>
               <p className="text-base leading-relaxed mb-5 text-gray-800 max-w-lg">
-                Concepcion Pena is the Broker/Owner of Colonial Real Estate,
-                bringing over 20 years of real estate experience to help clients
-                buy and sell with confidence. A U.S. Navy veteran with more than
-                20 years of combined active and reserve service, he is known for
-                discipline, integrity, and results. Prior to real estate, he
-                worked for Rockwell International (later acquired by Boeing),
-                adding a strong corporate and analytical background to every
-                transaction.
+                Looking to buy, sell, or invest in Virginia real estate? I’m a
+                licensed agent and auctioneer with years of experience in homes,
+                foreclosures, and investment properties. I help first-time
+                buyers, seasoned investors, and sellers make smart, confident
+                decisions. Let’s find the right opportunities for you and turn
+                your real estate goals into reality.
               </p>
               <div className="flex space-x-4">
                 <button
@@ -432,11 +430,11 @@ export default function App() {
           </p>
           <div className="w-16 h-px bg-gray-800 mx-auto mb-6"></div>
           <h2 className="text-5xl md:text-6xl font-light mb-3 tracking-[0.4em] text-black">
-            Concepcion Pena
+            Don Ashworth
           </h2>
           <div className="mb-8 relative">
             <h2 className="text-2xl md:text-3xl font-light text-gray-700 tracking-[0.3em] uppercase">
-              Broker and Owner
+              Real Estate Agent
             </h2>
           </div>
           <p className="text-base leading-relaxed mb-16 max-w-5xl mx-auto text-gray-800">
@@ -447,8 +445,8 @@ export default function App() {
             insight paired with an unwavering dedication to client success. His
             approach blends strategic marketing, sharp market intelligence, and
             a concierge level service experience, making it easy to see why
-            clients consistently choose Concepcion to lead their most important real
-            estate decisions.
+            clients consistently choose Concepcion to lead their most important
+            real estate decisions.
           </p>
           <div className="grid md:grid-cols-3 gap-12 mt-16">
             <div>
@@ -568,18 +566,16 @@ export default function App() {
           <div>
             <h2 className="text-4xl md:text-5xl font-serif mb-8">About Me</h2>
             <p className="text-base leading-relaxed mb-8 text-gray-700">
-              I’m Concepcion Pena, Broker and Owner of Colonial Real Estate.
-              With over 20 years of experience in real estate, I’ve had the
-              opportunity to work with buyers and sellers through a wide range
-              of market conditions, always focusing on clear communication and
-              dependable guidance. Before entering real estate, I served more
-              than 20 years in the U.S. Navy in both active duty and reserve
-              roles, an experience that shaped my values of integrity,
-              discipline, and service. I also spent four years with Rockwell
-              International, later acquired by Boeing, which strengthened my
-              analytical and problem-solving skills. Today, I use this diverse
-              background to help clients make informed real estate decisions
-              with confidence.
+              Born and raised in Virginia, I know the value of home and
+              community. My real estate journey began in the late 1980s, and
+              I’ve since helped clients buy and sell HUD homes, foreclosures,
+              bank-owned properties, and more. In 2015, I became a licensed real
+              estate agent, and in 2017, I earned my auctioneer license. I
+              specialize in guiding first-time buyers, investors, and sellers
+              through every step of the process. With estate, farm, and
+              consignment auctions throughout the year, I provide opportunities
+              that other agents can’t. My mission is simple: understand your
+              goals and help you achieve them.
             </p>
             <div className="flex space-x-4">
               <a
@@ -603,7 +599,10 @@ export default function App() {
               poster="https://images.pexels.com/photos/313691/pexels-photo-313691.jpeg"
               onClick={handleVideoPlay}
             >
-              <source src="https://www.pexels.com/download/video/7578550/" type="video/mp4" />
+              <source
+                src="https://www.pexels.com/download/video/7578550/"
+                type="video/mp4"
+              />
               Your browser does not support the video tag.
             </video>
 

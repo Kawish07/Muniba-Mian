@@ -134,11 +134,11 @@ export default function ContactModal({ open = false, onClose = () => { } }) {
                                     <div className="space-y-6">
                                         <div>
                                             <p className="text-white text-sm">PHONE</p>
-                                            <p className="text-white">+1 (915) 478-6565</p>
+                                            <p className="text-white">+1 (434) 221-7560</p>
                                         </div>
                                         <div>
                                             <p className="text-white text-sm">EMAIL</p>
-                                            <p className="text-white">concepcionpena1956@yahoo.com</p>
+                                            <p className="text-white">jus2c@hotmail.com</p>
                                         </div>
                                         <div>
                                             <p className="text-white text-sm">ADDRESS</p>
