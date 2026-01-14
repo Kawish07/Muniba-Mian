@@ -26,7 +26,7 @@ export default function Footer() {
                   LICENSED IN
                 </p>
                 <p className="text-sm tracking-widest font-light">
-                  Virginia, United state
+                  Virginia, United States
                 </p>
               </div>
             </div>
