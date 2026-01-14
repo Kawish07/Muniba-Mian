@@ -5,6 +5,12 @@ import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import { useEffect, useRef } from 'react';
 import { resolveImage, ensureProtocol, placeholderDataUrl, API } from './lib/image';
+
+// Helper function to format numbers with commas
+const formatPrice = (price) => {
+  if (!price) return '0';
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 export default function AllListings({ onBack }) {
     const [filterStatus, setFilterStatus] = useState('all');
     
@@ -181,7 +187,7 @@ export default function AllListings({ onBack }) {
                                         {listing.beds} Beds | {listing.baths} Baths | {listing.sqft} Sq.Ft.
                                     </p>
 
-                                    <p className="text-3xl font-serif text-gray-900 mb-6">${listing.price}</p>
+                                    <p className="text-3xl font-serif text-gray-900 mb-6">${formatPrice(listing.price)}</p>
 
                                     <button className="text-sm underline text-gray-900 hover:text-gray-600 transition-colors">
                                         More Details

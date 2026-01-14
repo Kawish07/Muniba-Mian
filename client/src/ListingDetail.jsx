@@ -7,6 +7,12 @@ import { Instagram, Facebook } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { resolveImage, ensureProtocol, placeholderDataUrl, API } from './lib/image';
 
+// Helper function to format numbers with commas
+const formatPrice = (price) => {
+  if (!price) return '0';
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
 export default function ListingDetail() {
   const { id } = useParams();
   const [listing, setListing] = useState(null);
@@ -84,7 +90,7 @@ export default function ListingDetail() {
           <div className="max-w-6xl mx-auto text-white">
             <p className="text-sm tracking-[0.3em] mb-2 uppercase font-light">Featured Listing</p>
             <h1 className="text-4xl md:text-5xl font-serif mb-2">{listing.title}</h1>
-            <p className="text-lg">{listing.price} | {listing.address}</p>
+            <p className="text-lg">${formatPrice(listing.price)} | {listing.address}</p>
           </div>
         </div>
       </section>
@@ -130,7 +136,7 @@ export default function ListingDetail() {
             </div>
 
             <h2 className="text-3xl font-serif mb-2">{listing.title}</h2>
-            <p className="text-2xl font-serif text-gray-900 mb-4">${listing.price}</p>
+            <p className="text-2xl font-serif text-gray-900 mb-4">${formatPrice(listing.price)}</p>
             <p className="text-sm text-gray-600 mb-6 leading-relaxed">{listing.description}</p>
             {listing.requestInfo !== false && (
               <button onClick={() => setContactOpen(true)} className="bg-black text-white px-8 py-3 mb-6 hover:bg-gray-800 transition-colors">
@@ -233,7 +239,7 @@ export default function ListingDetail() {
 
           <div className="mt-12 border rounded p-6">
             <h3 className="font-medium mb-2">Financial</h3>
-            <p className="text-sm text-gray-600">Sales Price: {listing.price}</p>
+            <p className="text-sm text-gray-600">Sales Price: ${formatPrice(listing.price)}</p>
             {listing.features && (
               <div className="mt-4">
                 <h4 className="font-medium">Features</h4>
