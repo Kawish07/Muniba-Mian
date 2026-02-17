@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Facebook, Linkedin } from 'lucide-react';
+import { X, Facebook, Instagram } from 'lucide-react';
 import { API } from '../lib/image';
 
 export default function ContactModal({ open = false, onClose = () => { } }) {
@@ -113,9 +113,9 @@ export default function ContactModal({ open = false, onClose = () => { } }) {
 
             {/* Panel */}
             <div className={`relative w-[95vw] max-w-[1600px] mx-4 md:mx-8 my-4 md:my-0 max-h-[90vh] overflow-y-auto no-scrollbar bg-transparent transform transition-all duration-400 ${closing ? 'opacity-0 translate-y-6' : 'opacity-100 translate-y-0'}`}>
-                <div className="relative bg-black/60 backdrop-blur-lg rounded-lg overflow-hidden shadow-2xl">
+                <div className="relative bg-black/60 backdrop-blur-xl rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                     {/* Background image for entire modal */}
-                    <div className="absolute inset-0 bg-contain bg-center" style={{ backgroundImage: "url('https://plus.unsplash.com/premium_photo-1716968595578-d192a02f0425?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8b3R0YXdhJTIwbmlnaHR8ZW58MHx8MHx8fDA%3D')" }} />
+                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1920&auto=format&fit=crop&q=80')" }} />
                     <div className="absolute inset-0 bg-black/70" />
 
                     {/* close button */}
@@ -134,24 +134,27 @@ export default function ContactModal({ open = false, onClose = () => { } }) {
                                     <div className="space-y-6">
                                         <div>
                                             <p className="text-white text-sm">PHONE</p>
-                                            <p className="text-white">+1 (434) 221-7560</p>
+                                            <p className="text-white">+1 (416) 909-5662</p>
                                         </div>
                                         <div>
                                             <p className="text-white text-sm">EMAIL</p>
-                                            <p className="text-white">jus2c@hotmail.com</p>
+                                            <p className="text-white">muniba.mian@century21.ca</p>
                                         </div>
                                         <div>
                                             <p className="text-white text-sm">ADDRESS</p>
-                                            <p className="text-white">10600 Montwood Dr Suite #125, El Paso, TX 79935, United States</p>
+                                            <p className="text-white">2855 Markham Rd Suite 300, Scarborough, ON L1T 0H6, Canada</p>
                                         </div>
                                     </div>
 
                                     <div className="mt-8 flex gap-4">
-                                        <a href='https://www.linkedin.com/in/don-ashworth-4b2364135/' className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition">
-                                            <Linkedin className="w-4 h-4 text-white" />
-                                        </a>
-                                        <a href='https://www.facebook.com/downtoearthdon/' className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition">
+                                        <a href='https://www.facebook.com/dealzinheelz.ca/' target='_blank' rel='noopener noreferrer' className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#C9A96E] hover:border-[#C9A96E] transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#C9A96E]/20">
                                             <Facebook className="w-4 h-4 text-white" />
+                                        </a>
+                                        <a href='https://www.instagram.com/dealzinheelz.realestate?igsh=MWRyYmlnbGIzMjk3cA==' target='_blank' rel='noopener noreferrer' className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#C9A96E] hover:border-[#C9A96E] transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#C9A96E]/20">
+                                            <Instagram className="w-4 h-4 text-white" />
+                                        </a>
+                                        <a href='https://www.tiktok.com/@dealzinheelz.realestate?_r=1&_t=ZS-93oQ3jmf18x' target='_blank' rel='noopener noreferrer' className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#C9A96E] hover:border-[#C9A96E] transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#C9A96E]/20">
+                                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52V6.8a4.83 4.83 0 01-1-.11z"/></svg>
                                         </a>
                                     </div>
                                 </div>
@@ -164,7 +167,7 @@ export default function ContactModal({ open = false, onClose = () => { } }) {
                                 {success ? (
                                     <div className="text-center py-12">
                                         <h3 className="text-2xl text-white mb-4">Message Sent</h3>
-                                        <p className="text-white/80">Thanks — we received your message. We'll respond shortly.</p>
+                                        <p className="text-white/80">Thanks â€” we received your message. We'll respond shortly.</p>
                                     </div>
                                 ) : (
                                     <>
@@ -173,25 +176,25 @@ export default function ContactModal({ open = false, onClose = () => { } }) {
                                         <form onSubmit={handleSubmit} className="space-y-4">
                                             <div>
                                                 <label className="text-white/80 text-xs">Name</label>
-                                                <input name="name" value={form.name} onChange={handleChange} className="w-full bg-transparent border-b border-white/30 text-white py-2 focus:outline-none" />
+                                                <input name="name" value={form.name} onChange={handleChange} className="w-full bg-white/5 border border-white/15 rounded-xl text-white py-3 px-4 focus:outline-none focus:border-[#C9A96E] focus:ring-2 focus:ring-[#C9A96E]/20 transition-all duration-300 placeholder-white/40" placeholder="Your name" />
                                             </div>
                                             <div>
-                                                <label className="text-white/80 text-xs">Email</label>
-                                                <input name="email" value={form.email} onChange={handleChange} className="w-full bg-transparent border-b border-white/30 text-white py-2 focus:outline-none" />
+                                                <label className="text-white/70 text-xs tracking-wide">Email</label>
+                                                <input name="email" value={form.email} onChange={handleChange} className="w-full bg-white/5 border border-white/15 rounded-xl text-white py-3 px-4 focus:outline-none focus:border-[#C9A96E] focus:ring-2 focus:ring-[#C9A96E]/20 transition-all duration-300 placeholder-white/40" placeholder="your@email.com" />
                                             </div>
                                             <div>
-                                                <label className="text-white/80 text-xs">Phone</label>
-                                                <input name="phone" value={form.phone} onChange={handleChange} className="w-full bg-transparent border-b border-white/30 text-white py-2 focus:outline-none" />
+                                                <label className="text-white/70 text-xs tracking-wide">Phone</label>
+                                                <input name="phone" value={form.phone} onChange={handleChange} className="w-full bg-white/5 border border-white/15 rounded-xl text-white py-3 px-4 focus:outline-none focus:border-[#C9A96E] focus:ring-2 focus:ring-[#C9A96E]/20 transition-all duration-300 placeholder-white/40" placeholder="+1 (xxx) xxx-xxxx" />
                                             </div>
                                             <div>
-                                                <label className="text-white/80 text-xs">Best time to get in touch (Eastern Time Zone)</label>
-                                                <input name="bestTime" type="datetime-local" value={form.bestTime} onChange={handleChange} className="w-full bg-transparent border border-white/30 text-white py-2 px-3 focus:outline-none h-12" />
+                                                <label className="text-white/70 text-xs tracking-wide">Best time to get in touch (Eastern Time Zone)</label>
+                                                <input name="bestTime" type="datetime-local" value={form.bestTime} onChange={handleChange} className="w-full bg-white/5 border border-white/15 rounded-xl text-white py-3 px-4 focus:outline-none focus:border-[#C9A96E] focus:ring-2 focus:ring-[#C9A96E]/20 transition-all duration-300 h-12" />
                                             </div>
 
                                             {error && <p className="text-red-400 text-sm">{error}</p>}
 
                                             <div>
-                                                <button type="submit" disabled={loading} className="w-full bg-white text-black py-3 disabled:opacity-50">{loading ? 'SENDING...' : 'Send Message'}</button>
+                                                <button type="submit" disabled={loading} className="w-full btn-pink-gradient py-3.5 rounded-full font-medium tracking-wide transition-all duration-300 disabled:opacity-50 hover:-translate-y-0.5">{loading ? 'SENDING...' : 'Send Message'}</button>
                                             </div>
                                         </form>
                                     </>

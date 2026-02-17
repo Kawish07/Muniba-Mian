@@ -6,6 +6,7 @@ import AllListings from './AllListings'
 import ListingDetail from './ListingDetail'
 import Staging from './Staging'
 import Testimonials from './Testimonials'
+import OurTeam from './OurTeam'
 import AdminDashboard from './admin/AdminDashboard'
 import EditProperty from './admin/EditProperty'
 import AdminLogin from './admin/AdminLogin'
@@ -143,6 +144,7 @@ const router = createBrowserRouter([
       { path: '/listing/:id', element: <PageWrapper><ListingDetail /></PageWrapper> },
       { path: '/staging', element: <PageWrapper><Staging /></PageWrapper> },
       { path: '/testimonials', element: <PageWrapper><Testimonials /></PageWrapper> },
+      { path: '/our-team', element: <PageWrapper><OurTeam /></PageWrapper> },
       { path: '/admin/login', element: <AdminLogin /> },
       { path: '/admin/admins', element: <PrivateRoute><PageWrapper><AdminsManager /></PageWrapper></PrivateRoute> },
       { path: '/admin', element: <PrivateRoute><PageWrapper><AdminDashboard /></PageWrapper></PrivateRoute> },

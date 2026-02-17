@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+﻿import React from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -32,128 +31,130 @@ export default function Testimonials() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
+    <div className="min-h-screen bg-white relative">
+      <div
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{ maxWidth: "1280px", margin: "0 auto", left: 0, right: 0 }}
+      >
+        <div className="absolute inset-y-0 left-[25%] w-px bg-gray-200/60" />
+        <div className="absolute inset-y-0 left-[50%] w-px bg-gray-200/60" />
+        <div className="absolute inset-y-0 left-[75%] w-px bg-gray-200/60" />
+      </div>
 
-      {/* Top split hero: left image, right content */}
-      <section className="grid md:grid-cols-2">
-        <div
-          className="h-[90vh] md:h-[100vh] bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url('/images/Don3.jpg')",
-          }}
-        />
-        <div className="flex items-center justify-center p-12">
-          <div className="max-w-xl">
-            <p className="text-sm tracking-[0.3em] mb-6 text-gray-700 font-light">
-              TESTIMONIALS
-            </p>
-            <h1 className="text-4xl md:text-5xl font-serif mb-6">
-              Testimonials
-            </h1>
-            <p className="text-base text-gray-700 leading-relaxed mb-8">
-              Read what our clients have to say about working with Don Ashworth.
+      <div className="relative z-10">
+        <Header />
+
+        <section className="pt-40 pb-12 md:pt-48 md:pb-16 px-6 md:px-12 lg:px-20 section-pattern-light">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-2 h-2 rounded-full bg-pink-400" />
+                <span
+                  className="text-xs tracking-[0.2em] uppercase text-gray-500 font-light"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  Testimonials
+                </span>
+              </div>
+              <h1
+                className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight mb-6"
+                style={{ fontFamily: "'Inter', sans-serif", color: "#111112" }}
+              >
+                Client success
+                <br />
+                stories
+              </h1>
+              <p
+                className="text-base md:text-lg text-gray-500 max-w-xl leading-relaxed mb-8"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Read what our clients say about the service, guidance, and
+                results they experienced working with Muniba Mian.
+              </p>
+              <button
+                onClick={() =>
+                  window.dispatchEvent(new CustomEvent("openContactModal"))
+                }
+                className="px-8 py-3 border border-gray-300 text-[#111112] text-sm tracking-wide hover:bg-[#111112] hover:text-white hover:border-[#111112] transition-all duration-300 rounded-full"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Contact Muniba
+              </button>
+            </div>
+
+            <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/3]">
+              <img
+                src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&auto=format&fit=crop&q=80"
+                alt="Happy homeowner"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 md:py-24 px-6 md:px-12 lg:px-20 bg-[#f5f5f5] section-pattern-light">
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-6">
+            {testimonials.map((t) => (
+              <article
+                key={t.id}
+                className="p-8 md:p-10 bg-white rounded-2xl border border-gray-200 hover:shadow-md transition-all duration-300"
+              >
+                <div className="flex items-center space-x-3 mb-5">
+                  <div className="w-10 h-10 rounded-full bg-pink-400/15 text-pink-500 flex items-center justify-center">
+                    <svg
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" />
+                    </svg>
+                  </div>
+                  <h2
+                    className="text-2xl md:text-3xl font-semibold leading-tight"
+                    style={{ fontFamily: "'Inter', sans-serif", color: "#111112" }}
+                  >
+                    {t.title}
+                  </h2>
+                </div>
+                <p
+                  className="text-[15px] leading-relaxed text-gray-600"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {t.preview}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="bg-[#111112] py-20 md:py-24 text-white section-pattern-dark">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <h2
+              className="text-4xl md:text-5xl font-medium mb-4"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Work with Muniba Mian
+            </h2>
+            <p
+              className="text-white/75 text-base md:text-lg mb-8"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Schedule a private consultation and take the next step with
+              confidence.
             </p>
             <button
               onClick={() =>
                 window.dispatchEvent(new CustomEvent("openContactModal"))
               }
-              className="border border-black px-6 py-3 text-sm hover:bg-black hover:text-white transition-colors"
+              className="btn-pink-gradient px-10 py-3.5 rounded-full font-medium"
             >
-              Contact Don
+              Contact
             </button>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Testimonials grid */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-0 border-t border-gray-300">
-            {testimonials.map((t, index) => (
-              <div
-                key={t.id}
-                className={`p-12 border-b border-gray-300 ${
-                  index % 2 === 0 ? "md:border-r" : ""
-                }`}
-              >
-                <div className="flex items-start space-x-4 mb-6">
-                  <div className="w-16 h-16 rounded-full border border-gray-400 flex items-center justify-center flex-shrink-0">
-                    <svg
-                      className="w-6 h-6 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <h2
-                      className="text-3xl font-serif mb-3 leading-tight"
-                      style={{
-                        fontFamily: "CompassSerif, Times New Roman, serif",
-                      }}
-                    >
-                      {t.title}
-                    </h2>
-                  </div>
-                </div>
-                <p
-                  className="text-[15px] leading-relaxed mb-4 pl-20"
-                  style={{ fontFamily: "CompassSans, Arial, sans-serif" }}
-                >
-                  {t.preview}
-                </p>
-                {t.full && (
-                  <p
-                    className="text-[15px] leading-relaxed mb-4 pl-20"
-                    style={{ fontFamily: "CompassSans, Arial, sans-serif" }}
-                  >
-                    {t.full}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Image CTA section with overlay */}
-      <section className="relative h-[60vh] md:h-[70vh] w-full">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmVhbCUyMGVzdGF0ZXxlbnwwfHwwfHx8MA%3D%3D')",
-          }}
-        />
-        {/* dark overlay to improve white text contrast */}
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-          <h2 className="text-white text-4xl md:text-5xl font-serif mb-4">
-            Work with Don Ashworth
-          </h2>
-          <p className="text-white text-lg mb-6 font-light">
-            Call us today to schedule a private showing
-          </p>
-          <button
-            onClick={() =>
-              window.dispatchEvent(new CustomEvent("openContactModal"))
-            }
-            className="border border-white text-white px-6 py-3 hover:bg-white hover:text-gray-900 transition-colors"
-          >
-            Contact
-          </button>
-        </div>
-      </section>
-      <Footer />
+        <Footer />
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { createPortal } from 'react-dom';
 
 export default function FloatingCTA({ onClick }) {
@@ -16,10 +16,10 @@ export default function FloatingCTA({ onClick }) {
             <button
                 onClick={handleClick}
                 aria-label="Lets connect"
-                className="bg-white px-6 py-3 rounded-full shadow-lg text-sm tracking-wide hover:shadow-xl transition-shadow flex items-center space-x-2 border border-gray-200"
+                className="bg-white px-6 py-3.5 rounded-full shadow-lg text-sm tracking-wide hover:shadow-2xl transition-all duration-300 flex items-center space-x-2 border border-gray-100 hover:-translate-y-1 hover:border-pink-200 group"
             >
-                <span>LET'S CONNECT</span>
-                <span className="text-xs">↑</span>
+                <span className="font-medium">LET'S CONNECT</span>
+                <span className="text-[#C9A96E] group-hover:translate-y-[-2px] transition-transform duration-300">â†‘</span>
             </button>
         </div>,
         document.body

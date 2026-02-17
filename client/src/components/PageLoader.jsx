@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { createPortal } from 'react-dom';
 
 export default function PageLoader({ open = false }) {
@@ -33,15 +33,15 @@ export default function PageLoader({ open = false }) {
 
         <div className="loader-text text-white">
           <h1 className="text-3xl md:text-4xl font-serif mb-3 text-white font-bold">
-            Don Ashworth
+            Muniba Mian
           </h1>
           <p className="text-sm md:text-base text-white/70 tracking-wide">
-            Bringing you market insights — loading…
+            Bringing you market insights â€” loadingâ€¦
           </p>
           
           {/* Progress bar */}
           <div className="progress-bar-container mt-6 w-64 mx-auto h-1 bg-white/10 rounded-full overflow-hidden">
-            <div className="progress-bar h-full bg-white rounded-full"></div>
+            <div className="progress-bar h-full bg-[#C9A96E] rounded-full"></div>
           </div>
         </div>
       </div>
@@ -78,12 +78,12 @@ export default function PageLoader({ open = false }) {
           position: absolute;
           width: 80px;
           height: 80px;
-          background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.25));
-          border: 2px solid rgba(255, 255, 255, 0.5);
+          background: linear-gradient(135deg, rgba(255, 102, 196, 0.15), rgba(255, 102, 196, 0.25));
+          border: 2px solid rgba(255, 102, 196, 0.5);
           backdrop-filter: blur(10px);
           box-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.3),
-            inset 0 0 20px rgba(255, 255, 255, 0.1);
+            0 0 20px rgba(255, 102, 196, 0.3),
+            inset 0 0 20px rgba(255, 102, 196, 0.1);
         }
 
         .cube-front  { transform: rotateY(0deg) translateZ(40px); }
@@ -120,8 +120,8 @@ export default function PageLoader({ open = false }) {
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background: white;
-          box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+          background: #C9A96E;
+          box-shadow: 0 0 10px rgba(255, 102, 196, 0.8);
           top: 50%;
           left: 50%;
         }
@@ -182,7 +182,7 @@ export default function PageLoader({ open = false }) {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+          background: radial-gradient(circle, rgba(255, 102, 196, 0.2) 0%, transparent 70%);
           animation: pulseGlow 2s ease-in-out infinite;
           pointer-events: none;
         }

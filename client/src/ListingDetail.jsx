@@ -1,9 +1,9 @@
-import React from 'react';
+﻿import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ContactModal from './components/ContactModal';
-import { Facebook, Linkedin } from 'lucide-react';
+import { Facebook, Instagram } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { resolveImage, ensureProtocol, placeholderDataUrl, API } from './lib/image';
 
@@ -71,7 +71,7 @@ export default function ListingDetail() {
     return () => window.removeEventListener('keydown', onKey);
   }, [previewOpen, listing]);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading…</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loadingâ€¦</div>;
   if (!listing) return <div className="min-h-screen flex items-center justify-center">Listing not found.</div>;
   return (
     <div className="min-h-screen bg-white">
@@ -102,7 +102,7 @@ export default function ListingDetail() {
               <img
                 src={ensureProtocol(resolveImage((listing.images && listing.images[0]) || listing.image || placeholderDataUrl()))}
                 alt={listing.title}
-                className="w-full h-[500px] object-cover rounded-sm cursor-pointer"
+                className="w-full h-[500px] object-cover rounded-2xl cursor-pointer shadow-lg hover:shadow-xl transition-shadow duration-300"
                 onClick={() => openPreview(0)}
                 onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = placeholderDataUrl(); }}
               />
@@ -114,7 +114,7 @@ export default function ListingDetail() {
                     key={i}
                     src={ensureProtocol(resolveImage(src || placeholderDataUrl(400,225)))}
                     alt={`gallery-${i}`}
-                    className="w-full h-24 object-cover rounded cursor-pointer"
+                    className="w-full h-24 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
                     onClick={() => openPreview(i)}
                     onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = placeholderDataUrl(400,225); }}
                   />
@@ -139,7 +139,7 @@ export default function ListingDetail() {
             <p className="text-2xl font-serif text-gray-900 mb-4">${formatPrice(listing.price)}</p>
             <p className="text-sm text-gray-600 mb-6 leading-relaxed">{listing.description}</p>
             {listing.requestInfo !== false && (
-              <button onClick={() => setContactOpen(true)} className="bg-black text-white px-8 py-3 mb-6 hover:bg-gray-800 transition-colors">
+              <button onClick={() => setContactOpen(true)} className="btn-pink-gradient px-8 py-3 mb-6 rounded-full font-medium">
                 Request Info
               </button>
             )}
@@ -147,11 +147,14 @@ export default function ListingDetail() {
             {/* Share section */}
             <div className="flex items-center gap-4 mb-8">
               <span className="font-medium">Share:</span>
-              <a href="https://www.linkedin.com/in/don-ashworth-4b2364135/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a href="https://www.facebook.com/downtoearthdon/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+              <a href="https://www.facebook.com/dealzinheelz.ca/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#C9A96E] hover:border-[#C9A96E] hover:text-white transition-all duration-300 hover:scale-110">
                 <Facebook className="w-4 h-4" />
+              </a>
+              <a href="https://www.instagram.com/dealzinheelz.realestate?igsh=MWRyYmlnbGIzMjk3cA==" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#C9A96E] hover:border-[#C9A96E] hover:text-white transition-all duration-300 hover:scale-110">
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a href="https://www.tiktok.com/@dealzinheelz.realestate?_r=1&_t=ZS-93oQ3jmf18x" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#C9A96E] hover:border-[#C9A96E] hover:text-white transition-all duration-300 hover:scale-110">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52V6.8a4.83 4.83 0 01-1-.11z"/></svg>
               </a>
             </div>
 
@@ -208,7 +211,7 @@ export default function ListingDetail() {
                   <span className="text-sm text-gray-700">{listing.lotSize}</span>
                 </div>
                 <div className="flex justify-between py-3 border-b border-gray-200">
-                  <span className="text-sm font-medium">MLS® ID:</span>
+                  <span className="text-sm font-medium">MLSÂ® ID:</span>
                   <span className="text-sm text-gray-700">{listing.mls}</span>
                 </div>
               </div>
@@ -237,7 +240,7 @@ export default function ListingDetail() {
             </div>
           </div>
 
-          <div className="mt-12 border rounded p-6">
+          <div className="mt-12 rounded-2xl border border-gray-100 p-8 shadow-sm">
             <h3 className="font-medium mb-2">Financial</h3>
             <p className="text-sm text-gray-600">Sales Price: ${formatPrice(listing.price)}</p>
             {listing.features && (
@@ -256,7 +259,7 @@ export default function ListingDetail() {
         </div>
 
         <div className="mt-8">
-          <Link to="/all-listings" className="text-sm underline">← Back to listings</Link>
+          <Link to="/all-listings" className="text-sm text-[#C9A96E] hover:text-[#B8944D] transition-colors font-medium hover-underline">â† Back to listings</Link>
         </div>
       </main>
 
@@ -271,7 +274,7 @@ export default function ListingDetail() {
               onClick={(e) => { e.stopPropagation(); closePreview(); }}
               aria-label="Close preview"
             >
-              ✕
+              âœ•
             </button>
 
             <button
@@ -279,7 +282,7 @@ export default function ListingDetail() {
               onClick={(e) => { e.stopPropagation(); showPrev(e); }}
               aria-label="Previous"
             >
-              ‹
+              â€¹
             </button>
 
             <button
@@ -287,7 +290,7 @@ export default function ListingDetail() {
               onClick={(e) => { e.stopPropagation(); showNext(e); }}
               aria-label="Next"
             >
-              ›
+              â€º
             </button>
 
             <div className="w-full h-full flex items-center justify-center">

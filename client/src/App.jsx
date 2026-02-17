@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+﻿import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
-import { X, Facebook, Linkedin } from "lucide-react";
+import { X, Facebook, Instagram } from "lucide-react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { getLenis } from "./lib/lenis";
@@ -11,8 +11,6 @@ import TransitionSplash from "./components/TransitionSplash";
 import FloatingCTA from "./components/FloatingCTA";
 
 export default function App() {
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupSubmitted, setPopupSubmitted] = useState(false);
   const [showLeftPopup, setShowLeftPopup] = useState(false);
   const [leftSubmitted, setLeftSubmitted] = useState(false);
   const [leftAnimating, setLeftAnimating] = useState(false);
@@ -31,23 +29,16 @@ export default function App() {
   const videoRef = useRef(null);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
-  const hasShownPopup = useRef(false);
   const [showHeader, setShowHeader] = useState(true);
   const isInitialMount = useRef(true); // Track if this is the first mount
 
   const location = useLocation();
 
-  // Scroll handling for popup and header
+  // Scroll handling for header
   useEffect(() => {
     lastScrollY.current = typeof window !== "undefined" ? window.scrollY : 0;
 
     const handleScroll = (currentScrollY) => {
-      // Show popup after scrolling past hero section
-      if (!hasShownPopup.current && currentScrollY > 600) {
-        setShowPopup(true);
-        hasShownPopup.current = true;
-      }
-
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
           const delta = currentScrollY - lastScrollY.current;
@@ -178,75 +169,30 @@ export default function App() {
     return () => window.removeEventListener("startPageLoad", onStart);
   }, []);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    // basic validation
-    if (!formData.name || !formData.email)
-      return alert("Please provide name and email");
-    try {
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        consent: !!formData.consent,
-        message: formData.message || "",
-        source: "homepage-popup",
-      };
-
-      const response = await fetch(`${API}/api/popup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit. Please try again later.");
-      }
-
-      setPopupSubmitted(true);
-      setFormData({
-        name: "",
-        phone: "",
-        email: "",
-        interest: "",
-        message: "",
-        bestTime: "",
-        consent: false,
-      });
-    } catch (err) {
-      console.error("Popup submit failed", err);
-      alert("Failed to submit. Please try again later.");
-    }
-  };
-
   const handleInputChange = (e) => {
     const { name, type, value, checked } = e.target;
     setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   };
 
-  const [featuredListing, setFeaturedListing] = useState(null);
+  const [allListings, setAllListings] = useState([]);
+  const [visibleListings, setVisibleListings] = useState(6);
 
-  // Fetch latest listing for featured section
+  // Fetch all listings for homepage grid
   useEffect(() => {
     let mounted = true;
-    const fetchFeatured = async () => {
+    const fetchListings = async () => {
       try {
-        const res = await fetch(`${API}/api/listings`);
+        const res = await fetch(API + '/api/listings');
         if (!res.ok) return;
         const data = await res.json();
         if (!mounted) return;
-        // server returns sorted by createdAt desc, so first is latest
-        if (Array.isArray(data) && data.length > 0) {
-          setFeaturedListing(data[0]);
+        if (Array.isArray(data)) {
+          setAllListings(data);
         }
-      } catch (e) {
-        // noop
-      }
+      } catch (e) { /* noop */ }
     };
-    fetchFeatured();
-    return () => {
-      mounted = false;
-    };
+    fetchListings();
+    return () => { mounted = false; };
   }, [API]);
   const handleLeftSubmit = async (e) => {
     e.preventDefault();
@@ -259,7 +205,7 @@ export default function App() {
       !formData.bestTime
     ) {
       setLeftError(
-        "Please complete all required fields and select a preferred date/time."
+        "Please complete all required fields and select a preferred date/time.",
       );
       return;
     }
@@ -284,7 +230,7 @@ export default function App() {
       if (!response.ok) {
         const errorText = await response.text().catch(() => "Failed to submit");
         throw new Error(
-          errorText || "Failed to submit. Please try again later."
+          errorText || "Failed to submit. Please try again later.",
         );
       }
 
@@ -317,290 +263,547 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white relative">
+      {/* Background Grid Lines Pattern */}
+      <div className="fixed inset-0 pointer-events-none z-0" style={{ maxWidth: '1280px', margin: '0 auto', left: 0, right: 0 }}>
+        <div className="absolute inset-y-0 left-[25%] w-px bg-gray-200/60" />
+        <div className="absolute inset-y-0 left-[50%] w-px bg-gray-200/60" />
+        <div className="absolute inset-y-0 left-[75%] w-px bg-gray-200/60" />
+      </div>
+
+      <div className="relative z-10">
       <PageLoader open={globalLoading} />
       <TransitionSplash />
       <Header />
 
-      {/* Hero Section */}
-      <section id="hero" className="relative">
-        <div className="grid md:grid-cols-2 h-[90vh]">
-          <div className="relative h-full overflow-hidden">
-            <img
-              src="images/Don1.jpg"
-              alt="Don Ashworth"
-              className="hero-image w-full h-full object-cover object-top transform translate-y-2 md:translate-y-4 scale-105"
-            />
-            <div className="absolute bottom-8 left-8 flex space-x-3">
-              <a
-                href="https://www.linkedin.com/in/don-ashworth-4b2364135/"
-                className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-md"
-              >
-                <Linkedin className="w-5 h-5 text-black" />
-              </a>
-              <a
-                href="https://www.facebook.com/downtoearthdon/"
-                className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-md"
-              >
-                <Facebook className="w-5 h-5 text-black" />
-              </a>
-            </div>
-          </div>
-          <div className="hero-right flex flex-col justify-start mt-20 md:mt-28 pt-16 md:pt-20 pb-6 px-12 md:px-20 bg-white h-full relative overflow-hidden">
-            <div className="absolute right-8 md:right-20 bottom-6 text-gray-100 text-8xl md:text-9xl font-serif font-bold opacity-10 pointer-events-none z-0">
-              Ashworth
-            </div>
-
-            <div className="relative z-10">
-              <h1 className="text-5xl md:text-6xl font-serif mb-3 text-black">
-                <span className="relative inline-block">
-                  Don
-                  <span className="absolute bottom-1 left-0 w-full h-3 bg-yellow-200 opacity-60 -z-10"></span>
-                </span>
-                Ashworth
-              </h1>
-              <div className="mb-8 relative">
-                <h2 className="text-2xl md:text-3xl font-light text-gray-700 tracking-[0.3em] uppercase">
-                  Real Estate Agent
-                </h2>
-                <div className="w-24 h-1 bg-yellow-400 mt-3"></div>
-              </div>
-              <p className="text-base leading-relaxed mb-5 text-gray-800 max-w-lg">
-                Looking to buy, sell, or invest in Virginia real estate? I’m a
-                licensed agent and auctioneer with years of experience in homes,
-                foreclosures, and investment properties. I help first-time
-                buyers, seasoned investors, and sellers make smart, confident
-                decisions. Let’s find the right opportunities for you and turn
-                your real estate goals into reality.
-              </p>
-              <div className="flex space-x-4">
-                <button
-                  onClick={() =>
-                    window.dispatchEvent(new CustomEvent("openContactModal"))
-                  }
-                  className="px-8 py-3 bg-black text-white hover:bg-white hover:text-black hover:border-black border-2 border-transparent transition-all duration-300 font-medium inline-flex items-center justify-center"
-                >
-                  Contact
-                </button>
-              </div>
-            </div>
-          </div>
+      {/* Hero Section — Luxterra-inspired full-bleed */}
+      <section id="hero" className="relative h-screen w-full overflow-hidden section-pattern-dark">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/heromuniba.jpg"
+            alt="Luxury modern home exterior"
+            className="hero-image w-full h-full object-cover object-center"          />
+          {/* Dark gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
+          <div className="absolute inset-0 section-pattern-dark opacity-40" />
         </div>
 
-        {/* Bottom Black Bar */}
-        <div className="bg-black text-white py-6 md:py-8 px-8 -mt-4 md:-mt-6 z-10 relative">
-          <div className="max-w-7xl mx-auto flex items-center justify-center">
-            <div className="flex items-center space-x-2 text-xs md:text-sm">
-              <svg
-                className="w-4 h-4 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex flex-col justify-between px-8 md:px-16 lg:px-20 pb-10 pt-32">
+          {/* Main Text */}
+          <div className="flex-1 flex flex-col justify-center max-w-2xl">
+            <p className="text-white/60 text-sm tracking-[0.25em] uppercase mb-6 font-light">Sales Representative · Greater Toronto Area</p>
+            <h1 className="text-3xl sm:text-4xl md:text-[2.75rem] leading-snug font-light text-white mb-8" style={{ lineHeight: '1.35' }}>
+              We help buyers and sellers navigate real estate with clarity—featuring curated listings and seamless support.
+            </h1>
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/all-listings"
+                className="inline-flex items-center px-8 py-3.5 bg-white text-black text-sm font-medium rounded-full hover:bg-pink-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-pink-400/30"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-center font-bold">
-                We are committed to upholding the principles of all applicable
-              </span>
-              <a
-                href="https://www.nar.realtor/fair-housing/what-everyone-should-know-about-equal-opportunity-housing"
-                className="underline hover:opacity-80 transition-opacity font-medium whitespace-nowrap"
+                View listings
+              </Link>
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
+                className="inline-flex items-center px-8 py-3.5 border border-white/40 text-white text-sm font-medium rounded-full hover:bg-white/10 transition-all duration-300"
               >
-                fair housing laws
+                Contact
+              </button>
+            </div>
+
+            {/* Social Media Links */}
+            <div className="flex space-x-3 mt-6">
+              <a href="https://www.facebook.com/dealzinheelz.ca/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-pink-400 hover:border-pink-400 transition-all duration-300 hover:scale-110">
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a href="https://www.instagram.com/dealzinheelz.realestate?igsh=MWRyYmlnbGIzMjk3cA==" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-pink-400 hover:border-pink-400 transition-all duration-300 hover:scale-110">
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a href="https://www.tiktok.com/@dealzinheelz.realestate?_r=1&_t=ZS-93oQ3jmf18x" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-pink-400 hover:border-pink-400 transition-all duration-300 hover:scale-110">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52V6.8a4.83 4.83 0 01-1-.11z"/></svg>
               </a>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Philip Scheinfeld Team Section */}
-      <section
-        id="team"
-        className="relative py-20 px-6 bg-gradient-to-br from-gray-200 to-gray-100 overflow-hidden"
-      >
-        {/* Background Pattern */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none"></div>
-
-        <div className="relative z-10 max-w-6xl mx-auto text-center">
-          <p className="text-xs tracking-[0.3em] mb-6 text-gray-800 font-light">
-            UNPARALLELED MARKETING. WHITE GLOVE SERVICE.
-          </p>
-          <div className="w-16 h-px bg-gray-800 mx-auto mb-6"></div>
-          <h2 className="text-5xl md:text-6xl font-light mb-3 tracking-[0.4em] text-black">
-            Don Ashworth
-          </h2>
-          <div className="mb-8 relative">
-            <h2 className="text-2xl md:text-3xl font-light text-gray-700 tracking-[0.3em] uppercase">
-              Real Estate Agent
-            </h2>
-          </div>
-          <p className="text-base leading-relaxed mb-16 max-w-5xl mx-auto text-gray-800">
-            Driven by a commitment to excellence, Concepcion Pena serves a
-            steadily growing network of buyers, sellers, investors, and
-            relocating families across Ottawa and the surrounding markets.
-            Concepcion is known for delivering clear, data-backed real estate
-            insight paired with an unwavering dedication to client success. His
-            approach blends strategic marketing, sharp market intelligence, and
-            a concierge level service experience, making it easy to see why
-            clients consistently choose Concepcion to lead their most important
-            real estate decisions.
-          </p>
-          <div className="grid md:grid-cols-3 gap-12 mt-16">
-            <div>
-              <h3 className="text-3xl font-light mb-4 tracking-wider">
-                Top-Tier Local Expertise
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                Recognized for deep market knowledge and exceptional negotiation
-                skills.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-3xl font-light mb-4 tracking-wider">
-                Hundreds of Successful Client Relationships
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                Built on trust, transparency, and a client-first philosophy.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-3xl font-light mb-4 tracking-wider">
-                Record-Level Client Satisfaction
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                A reputation defined by results, professionalism, and consistent
-                performance.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Listing Section (shows latest listing dynamically) */}
-      <section id="listings" className="py-20 px-6 bg-black text-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-0">
+          {/* Bottom: giant brand name + floating card */}
           <div className="relative">
+            <h2 className="hero-brand-name text-[12vw] md:text-[10vw] lg:text-[9vw] font-bold text-white leading-none tracking-tight select-none" style={{ lineHeight: '0.85', opacity: 0.95 }}>
+              Muniba Mian
+            </h2>
+
+            {/* Floating Agent Card */}
+            <div
+              className="hidden md:flex absolute bottom-4 right-0 items-center space-x-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-5 py-4 cursor-pointer hover:bg-white/15 transition-all duration-300 group"
+              onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
+            >
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-pink-500 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                M
+              </div>
+              <div>
+                <p className="text-white/50 text-xs font-light">Let's help you</p>
+                <p className="text-white text-sm font-medium group-hover:text-pink-300 transition-colors">Talk to an agent</p>
+              </div>
+              <span className="text-white/40 group-hover:text-pink-400 transition-colors ml-2">→</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+      {/* About Us Section — Luxterra Style */}
+      <section id="team" className="py-24 px-6 md:px-12 lg:px-20 bg-white section-pattern-light">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
+          {/* Left Content */}
+          <div>
+            <div className="flex items-center space-x-3 mb-8">
+              <div className="w-2.5 h-2.5 rounded-full bg-pink-400"></div>
+              <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>About us</span>
+              <div className="flex-1 h-px bg-gray-200"></div>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-[3.25rem] font-medium mb-6 leading-tight" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
+              Our mission leads you to better living
+            </h2>
+            <p className="text-base text-gray-600 leading-relaxed mb-12 max-w-xl" style={{ fontFamily: "'Inter', sans-serif" }}>
+              We support buyers, sellers, and homeowners with tools that streamline decisions, improve results, and bring clarity to every step of your real estate journey.
+            </p>
+
+            {/* Feature Cards */}
+            <div className="space-y-4">
+              <div className="bg-gray-50 rounded-xl p-6 flex items-start space-x-5 hover:shadow-md transition-shadow duration-300">
+                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                  <svg className="w-7 h-7 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 4.5h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" /></svg>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Market Discovery</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">We review local trends, study pricing shifts, and analyze demand. Each insight is shaped to guide every decision.</p>
+                </div>
+              </div>
+              <div className="bg-gray-50 rounded-xl p-6 flex items-start space-x-5 hover:shadow-md transition-shadow duration-300">
+                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                  <svg className="w-7 h-7 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Property Analysis</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">We assess home condition, evaluate location strengths, and compare recent sales. Every detail is reviewed to ensure accuracy.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Image */}
+          <div className="relative w-full h-[500px] lg:h-[620px] overflow-hidden">
             <img
-              src={
-                featuredListing &&
-                featuredListing.images &&
-                featuredListing.images.length
-                  ? ensureProtocol(resolveImage(featuredListing.images[0]))
-                  : "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=800&fit=crop"
-              }
-              alt={
-                featuredListing
-                  ? featuredListing.title ||
-                    featuredListing.address ||
-                    "Featured Property"
-                  : "Featured Property"
-              }
+              src="images/aboutimage.jpg"
+              alt="Modern luxury interior"
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="flex flex-col justify-center px-12 py-16">
-            <p className="text-sm tracking-widest mb-4">Featured Listing</p>
-            <h2 className="text-4xl font-serif mb-6">
-              {featuredListing
-                ? featuredListing.address || featuredListing.title
-                : "2440 64th Ave SE, Mercer Island 98040"}
-            </h2>
-            <p className="text-3xl mb-6">
-              {featuredListing
-                ? `$${Number(featuredListing.price || 0).toLocaleString()}`
-                : "$1,650,000"}
-            </p>
-            <div className="flex space-x-6 text-sm mb-8">
-              <span>
-                {featuredListing
-                  ? `${featuredListing.beds || 0} Beds`
-                  : "3 Beds"}
-              </span>
-              <span>|</span>
-              <span>
-                {featuredListing
-                  ? `${featuredListing.baths || 0} Baths`
-                  : "2 Baths"}
-              </span>
-              <span>|</span>
-              <span>
-                {featuredListing
-                  ? `${
-                      featuredListing.livingArea ||
-                      featuredListing.sqft ||
-                      "N/A"
-                    } Sq.Ft.`
-                  : "1,770 Sq.Ft."}
-              </span>
+        </div>
+      </section>
+
+      {/* Properties — Luxterra-style Listings Grid */}
+      <section id="listings" className="py-24 px-6 md:px-12 lg:px-20 bg-white section-pattern-light">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <div className="w-2 h-2 rounded-full bg-pink-400"></div>
+              <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>Properties</span>
             </div>
-            <div className="flex space-x-4">
-              {featuredListing ? (
-                <Link
-                  to={`/listing/${featuredListing._id}`}
-                  className="px-8 py-3 bg-white text-black hover:bg-gray-100 transition-colors"
-                >
-                  View Listing
-                </Link>
-              ) : (
-                <button className="px-8 py-3 bg-white text-black hover:bg-gray-100 transition-colors">
-                  View Listing
-                </button>
-              )}
+            <h2 className="text-4xl md:text-5xl font-medium" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Our recent listings</h2>
+            {/* Filter Tabs */}
+            <div className="flex items-center justify-center space-x-3 mt-6">
+              <button className="px-5 py-2 text-sm font-medium rounded-full border border-black bg-black text-white" style={{ fontFamily: "'Inter', sans-serif" }}>For sale</button>
+              <button className="px-5 py-2 text-sm font-medium rounded-full border border-gray-300 text-gray-500 hover:border-black hover:text-black transition-all" style={{ fontFamily: "'Inter', sans-serif" }}>For rent</button>
+            </div>
+          </div>
+
+          {/* Listings Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {allListings.slice(0, visibleListings).map((listing) => (
               <Link
-                to="/all-listings"
-                className="px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-black transition-colors inline-flex items-center justify-center"
+                key={listing._id}
+                to={'/listing/' + listing._id}
+                className="group block"
               >
-                View All
+                {/* Image */}
+                <div className="relative rounded-xl overflow-hidden mb-4 aspect-[4/3]">
+                  <img
+                    src={listing.images && listing.images.length ? ensureProtocol(resolveImage(listing.images[0])) : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&auto=format&fit=crop&q=80'}
+                    alt={listing.title || listing.address || 'Property'}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {/* Tags */}
+                  <div className="absolute top-4 left-4 flex space-x-2">
+                    <span className="px-3 py-1 bg-black/80 backdrop-blur-sm text-xs font-medium text-white rounded-full" style={{ fontFamily: "'Inter', sans-serif" }}>For sale</span>
+                    <span className="px-3 py-1 bg-black/80 backdrop-blur-sm text-xs font-medium text-white rounded-full" style={{ fontFamily: "'Inter', sans-serif" }}>{listing.type || 'Property'}</span>
+                  </div>
+                </div>
+                {/* Info */}
+                <div className="flex items-start justify-between mb-1">
+                  <h3 className="text-lg font-semibold group-hover:text-pink-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>{listing.title || listing.address || 'Untitled'}</h3>
+                  <p className="text-lg font-semibold whitespace-nowrap ml-4" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>{'$' + Number(listing.price || 0).toLocaleString()}</p>
+                </div>
+                <p className="text-sm text-gray-400 mb-3">{listing.address || ''}</p>
+                <div className="flex items-center space-x-4 text-xs text-gray-500">
+                  <span className="flex items-center space-x-1">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" /></svg>
+                    <span>{listing.livingArea || listing.sqft || 'N/A'} sq.ft</span>
+                  </span>
+                  <span className="flex items-center space-x-1">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
+                    <span>{listing.beds || 0} Bed</span>
+                  </span>
+                  <span className="flex items-center space-x-1">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>{listing.baths || 0} Bath</span>
+                  </span>
+                </div>
               </Link>
+            ))}
+          </div>
+
+          {/* Load More Button */}
+          {allListings.length > visibleListings && (
+            <div className="text-center mt-12">
+              <button
+                onClick={() => setVisibleListings((prev) => prev + 6)}
+                className="px-10 py-3.5 border border-gray-300 text-black text-sm font-medium rounded-full hover:bg-black hover:text-white hover:border-black transition-all duration-300"
+              >
+                Load More
+              </button>
+            </div>
+          )}
+
+          {/* No listings message */}
+          {allListings.length === 0 && (
+            <p className="text-center text-gray-400 text-sm">No listings available yet.</p>
+          )}
+        </div>
+      </section>
+
+      {/* Why Us — Home Experts Section */}
+      <section className="py-24 px-6 md:px-12 lg:px-20 bg-white section-pattern-light">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-14">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="flex-1 h-px bg-gray-200"></div>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 rounded-full bg-pink-400"></div>
+                <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>Why us</span>
+              </div>
+              <div className="flex-1 h-px bg-gray-200"></div>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-medium" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>GTA's home experts</h2>
+          </div>
+
+          {/* Bento Grid */}
+          <div className="grid lg:grid-cols-2 gap-5">
+            {/* Left — Large image card */}
+            <div className="relative overflow-hidden h-[580px] bg-black">
+              <img
+                src="images/whyus.jpg"
+                alt="Real estate expert"
+                className="w-full h-full object-cover opacity-70"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 p-6">
+                <div className="flex items-center space-x-2 mb-2">
+                  <div className="w-2 h-2 rounded-full bg-pink-400"></div>
+                  <span className="text-sm text-pink-300 font-medium">GTA's best agency</span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  2k clients choose our trusted agency
+                </h3>
+                <p className="text-white/60 text-xs mt-2 max-w-sm">
+                  Choosing us matters — experience and clear guidance shape every real-estate decision. We help clients move forward with confidence.
+                </p>
+              </div>
+            </div>
+
+            {/* Right — 2x2 Stats Grid */}
+            <div className="grid grid-cols-2 gap-5 h-[580px]">
+              {/* Stat Card 1 */}
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>84%</p>
+                    <p className="text-sm font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Close faster</p>
+                  </div>
+                  <svg className="w-6 h-6 text-gray-300 group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" /></svg>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">Clients working with skilled agents complete their transactions faster.</p>
+              </div>
+              {/* Stat Card 2 */}
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>3 in 5</p>
+                    <p className="text-sm font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Win offers</p>
+                  </div>
+                  <svg className="w-6 h-6 text-gray-300 group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">More than half of our clients secure their ideal home on the first or second offer.</p>
+              </div>
+              {/* Stat Card 3 */}
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>$5M+</p>
+                    <p className="text-sm font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Saved yearly</p>
+                  </div>
+                  <svg className="w-6 h-6 text-gray-300 group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" /></svg>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">We help buyers avoid overpaying while securing value in the market.</p>
+              </div>
+              {/* Stat Card 4 */}
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>95%</p>
+                    <p className="text-sm font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Refer friends</p>
+                  </div>
+                  <svg className="w-6 h-6 text-gray-300 group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">Most clients recommend our team after experiencing smooth closings.</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Video Section */}
-      <section id="video" className="py-20 px-6 bg-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-serif mb-8">About Me</h2>
-            <p className="text-base leading-relaxed mb-8 text-gray-700">
-              Born and raised in Virginia, I know the value of home and
-              community. My real estate journey began in the late 1980s, and
-              I’ve since helped clients buy and sell HUD homes, foreclosures,
-              bank-owned properties, and more. In 2015, I became a licensed real
-              estate agent, and in 2017, I earned my auctioneer license. I
-              specialize in guiding first-time buyers, investors, and sellers
-              through every step of the process. With estate, farm, and
-              consignment auctions throughout the year, I provide opportunities
-              that other agents can’t. My mission is simple: understand your
-              goals and help you achieve them.
-            </p>
-            <div className="flex space-x-4">
-              <a
-                href="https://www.linkedin.com/in/don-ashworth-4b2364135/"
-                className="w-10 h-10 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-colors"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a
-                href="https://www.facebook.com/downtoearthdon/"
-                className="w-10 h-10 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-colors"
-              >
-                <Facebook className="w-4 h-4" />
-              </a>
+      {/* Our Services — What We Offer Section */}
+      <section className="py-24 px-6 md:px-12 lg:px-20 bg-[#111111] section-pattern-dark">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            {/* Horizontal line with label */}
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="flex-1 h-px bg-white/10"></div>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 rounded-full bg-pink-400"></div>
+                <span className="text-sm text-gray-400 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>Our services</span>
+              </div>
+              <div className="flex-1 h-px bg-white/10"></div>
             </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium text-white" style={{ fontFamily: "'Inter', sans-serif" }}>What we offer</h2>
+            <p className="text-gray-400 text-base md:text-lg mt-5 max-w-2xl mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
+              We help simplify GTA property decisions with<br className="hidden md:block" />
+              reliable service, speed & transparency
+            </p>
           </div>
-          <div className="relative w-full">
-            <img
-              src="/images/Don6.png"
-              alt="Don Ashworth"
-              className="w-full h-auto object-cover rounded"
-            />
+
+          {/* Service Cards */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Sale Card */}
+            <div className="group relative rounded-2xl overflow-hidden bg-black">
+              <div className="aspect-[4/5] relative">
+                <img
+                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop&q=80"
+                  alt="Sale"
+                  className="w-full h-full object-cover opacity-60 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="text-3xl font-semibold text-white mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>Sale</h3>
+                  <p className="text-white/60 text-sm mb-5" style={{ fontFamily: "'Inter', sans-serif" }}>We make finding your perfect property effortless and fast.</p>
+                  <Link
+                    to="/listings"
+                    className="block w-full text-center py-3 border border-white/30 text-white text-sm font-medium rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    View listings
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Rentals Card */}
+            <div className="group relative rounded-2xl overflow-hidden bg-black">
+              <div className="aspect-[4/5] relative">
+                <img
+                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&auto=format&fit=crop&q=80"
+                  alt="Rentals"
+                  className="w-full h-full object-cover opacity-60 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="text-3xl font-semibold text-white mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>Rentals</h3>
+                  <p className="text-white/60 text-sm mb-5" style={{ fontFamily: "'Inter', sans-serif" }}>We make finding your perfect rental effortless in GTA neighborhoods.</p>
+                  <Link
+                    to="/listings"
+                    className="block w-full text-center py-3 border border-white/30 text-white text-sm font-medium rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    View listings
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Valuation Card */}
+            <div className="group relative rounded-2xl overflow-hidden bg-black">
+              <div className="aspect-[4/5] relative">
+                <img
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&auto=format&fit=crop&q=80"
+                  alt="Valuation"
+                  className="w-full h-full object-cover opacity-60 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="text-3xl font-semibold text-white mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>Valuation</h3>
+                  <p className="text-white/60 text-sm mb-5" style={{ fontFamily: "'Inter', sans-serif" }}>We make understanding your home's value and best deals effortless.</p>
+                  <button
+                    onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
+                    className="block w-full text-center py-3 border border-white/30 text-white text-sm font-medium rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Get a valuation
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Testimonials — What Our Users Say */}
+      <section className="py-24 px-6 md:px-12 lg:px-20 bg-[#f5f5f5] section-pattern-light">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-8 items-start">
+            {/* Left — Heading + Nav Arrows */}
+            <div className="flex flex-col justify-between min-h-[420px]">
+              <div>
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-2 h-2 rounded-full bg-pink-400 flex-shrink-0"></div>
+                  <span className="text-sm text-gray-500 font-medium flex-shrink-0" style={{ fontFamily: "'Inter', sans-serif" }}>Testimonials</span>
+                  <div className="flex-1 h-px bg-gray-300"></div>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-medium leading-[1.15]" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
+                  What our<br />users say
+                </h2>
+              </div>
+              <div className="flex items-center space-x-3 mt-auto pt-12">
+                <button className="w-11 h-11 rounded-full border border-gray-300 bg-transparent flex items-center justify-center text-gray-400 hover:border-black hover:text-black transition-all duration-200">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                </button>
+                <button className="w-11 h-11 rounded-full border border-gray-300 bg-transparent flex items-center justify-center text-gray-400 hover:border-black hover:text-black transition-all duration-200">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Testimonial Card 1 */}
+            <div className="bg-white rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[420px]">
+              <div>
+                <svg className="w-12 h-12 text-gray-200 mb-8" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" /></svg>
+                <p className="text-lg md:text-xl leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
+                  Muniba made our home search incredibly simple. Her guide, responsiveness, and local knowledge helped us secure the perfect place much faster.
+                </p>
+              </div>
+              <div className="mt-auto pt-8">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80" alt="Maria Thompson" className="w-16 h-16 rounded-xl object-cover mb-3" />
+                <p className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Maria Thompson</p>
+                <p className="text-xs text-gray-500 mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>Buyer</p>
+              </div>
+            </div>
+
+            {/* Testimonial Card 2 */}
+            <div className="bg-white rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[420px]">
+              <div>
+                <svg className="w-12 h-12 text-gray-200 mb-8" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" /></svg>
+                <p className="text-lg md:text-xl leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
+                  We felt supported through every step. Clear advice, quick updates, and genuine care made the entire buying experience smooth and stress-free.
+                </p>
+              </div>
+              <div className="mt-auto pt-8">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80" alt="Brian Ruiz" className="w-16 h-16 rounded-xl object-cover mb-3" />
+                <p className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Brian Ruiz</p>
+                <p className="text-xs text-gray-500 mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>First-time Buyer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-24 px-6 md:px-12 lg:px-20 bg-white section-pattern-light">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-12 gap-12 items-start">
+            {/* Left — Heading + Agent Card */}
+            <div className="lg:col-span-4">
+              <div className="flex items-center space-x-2 mb-6">
+                <div className="w-2 h-2 rounded-full bg-pink-400"></div>
+                <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>FAQ</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-medium leading-[1.15] mb-16" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
+                Frequent<br />questions
+              </h2>
+
+              {/* Agent Card */}
+              <div className="mt-auto">
+                <img
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80"
+                  alt="Muniba Mian"
+                  className="w-28 h-28 rounded-xl object-cover mb-4"
+                />
+                <p className="text-sm leading-relaxed mb-4" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
+                  Have more questions? Our team is<br />happy to help.
+                </p>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
+                  className="px-6 py-2.5 border border-gray-300 text-sm font-medium rounded-lg hover:bg-black hover:text-white hover:border-black transition-all duration-300"
+                  style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}
+                >
+                  Get in touch
+                </button>
+              </div>
+            </div>
+
+            {/* Right — Accordion */}
+            <div className="lg:col-span-8">
+              {[
+                {
+                  q: 'How does your buying process work?',
+                  a: 'We begin with a consultation to understand your goals, preferred areas, and budget. Our team then curates tailored listings, arranges viewings, and guides you through offers, inspections, and closing. Every step is supported with clarity and transparency to ensure a smooth and informed experience from start to finish.'
+                },
+                {
+                  q: 'Do you help with mortgage pre-approval?',
+                  a: 'Yes, we connect you with trusted mortgage advisors who can help you get pre-approved quickly. This strengthens your buying position and ensures you know exactly what you can afford before you start viewing homes.'
+                },
+                {
+                  q: 'Can you coordinate inspections and appraisals?',
+                  a: 'Absolutely. We handle scheduling and coordinating all inspections and appraisals with licensed professionals. Our team ensures every detail is reviewed so you can make confident, informed decisions.'
+                },
+                {
+                  q: 'Do you assist with selling my current home?',
+                  a: 'Yes, we provide full-service support for sellers — from pricing strategy and staging advice to professional photography, marketing, and negotiation. We work to get you the best possible outcome.'
+                },
+                {
+                  q: 'Are virtual tours available for out-of-province buyers?',
+                  a: 'Yes, we offer virtual tours, video walkthroughs, and detailed photo packages for buyers who cannot visit in person. We make sure you have all the information needed to make a confident decision remotely.'
+                }
+              ].map((faq, i) => (
+                <details key={i} className="group border-b border-gray-200" open={i === 0}>
+                  <summary className="flex items-center justify-between py-7 cursor-pointer list-none">
+                    <h3 className="text-lg md:text-xl font-medium pr-8" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>{faq.q}</h3>
+                    <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 group-open:rotate-45 transition-transform duration-300">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                    </span>
+                  </summary>
+                  <div className="pb-7 pr-12">
+                    <p className="text-sm md:text-base text-gray-600 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>{faq.a}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       <Footer />
 
@@ -665,7 +868,7 @@ export default function App() {
                         onChange={handleInputChange}
                         required
                         placeholder="Full Name"
-                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/10 transition-colors duration-200 hover:border-white"
+                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded-xl text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all duration-300 hover:border-gray-400"
                       />
                     </div>
                     <div>
@@ -676,7 +879,7 @@ export default function App() {
                         onChange={handleInputChange}
                         required
                         placeholder="Email"
-                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/10 transition-colors duration-200 hover:border-white"
+                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded-xl text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all duration-300 hover:border-gray-400"
                       />
                     </div>
                     <div>
@@ -687,7 +890,7 @@ export default function App() {
                         onChange={handleInputChange}
                         required
                         placeholder="Phone"
-                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/10 transition-colors duration-200 hover:border-white"
+                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded-xl text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all duration-300 hover:border-gray-400"
                       />
                     </div>
                     <div className="relative">
@@ -696,7 +899,7 @@ export default function App() {
                         value={formData.interest}
                         onChange={handleInputChange}
                         required
-                        className="appearance-none w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/10 transition-colors duration-200 hover:border-white"
+                        className="appearance-none w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded-xl text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all duration-300 hover:border-gray-400"
                       >
                         <option value="" disabled>
                           Interested in...
@@ -763,7 +966,7 @@ export default function App() {
                       <button
                         type="submit"
                         disabled={leftLoading}
-                        className="w-full bg-white text-black py-2 sm:py-3 rounded font-semibold text-sm sm:text-base hover:bg-gray-100 hover:shadow-xl transform transition-all duration-200 disabled:opacity-50"
+                        className="w-full bg-pink-400 text-white py-2 sm:py-3 rounded-xl font-semibold text-sm sm:text-base hover:bg-pink-500 hover:shadow-xl hover:shadow-pink-400/20 transform transition-all duration-300 disabled:opacity-50 hover:-translate-y-0.5"
                       >
                         {leftLoading ? "SENDING..." : "Submit"}
                       </button>
@@ -795,7 +998,7 @@ export default function App() {
                           setLeftSubmitted(false);
                         }, 300);
                       }}
-                      className="px-6 py-2 border rounded hover:bg-white hover:text-black transition"
+                      className="px-6 py-2 border rounded-full hover:bg-pink-400 hover:text-white hover:border-pink-400 transition-all duration-300"
                     >
                       Close
                     </button>
@@ -804,193 +1007,10 @@ export default function App() {
               </div>
             </div>
           </div>,
-          document.body
+          document.body,
         )}
 
-      {/* Popup Modal */}
-      {showPopup && (
-        <div
-          className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${
-            showPopup ? "animate-fadeIn" : ""
-          }`}
-        >
-          <div
-            className={`absolute inset-0 bg-black transition-opacity duration-500 ${
-              showPopup ? "bg-opacity-60" : "bg-opacity-0"
-            }`}
-            onClick={() => setShowPopup(false)}
-          />
-          <div
-            className={`relative max-w-6xl w-full mx-4 shadow-2xl rounded-lg overflow-hidden transform transition-all duration-700 ease-out ${
-              showPopup
-                ? "scale-100 opacity-100 translate-y-0"
-                : "scale-90 opacity-0 translate-y-8"
-            } ${popupSubmitted ? "bg-white" : ""}`}
-            style={{
-              backgroundColor: popupSubmitted ? "#ffffff" : "#141414",
-              maxHeight: "90vh",
-            }}
-          >
-            <button
-              onClick={() => setShowPopup(false)}
-              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition-all duration-300 hover:rotate-90"
-            >
-              <X className="w-5 h-5 text-black" />
-            </button>
-
-            <div className="grid grid-cols-1 md:grid-cols-5 max-h-[90vh] overflow-y-auto">
-              {/* Left Side - Image */}
-              <div className="relative h-48 sm:h-64 md:h-auto overflow-hidden md:col-span-2">
-                <img
-                  src={
-                    popupSubmitted
-                      ? "/images/REALESTATEHEROSECTIONIMAGE.jpg"
-                      : "/images/REALESTATEHEROSECTIONIMAGE.jpg"
-                  }
-                  alt="Luxury Property"
-                  className={`w-full h-full object-cover transition-all duration-700 ${
-                    popupSubmitted ? "scale-110" : "scale-100"
-                  }`}
-                />
-                <div
-                  className={`absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent transition-opacity duration-700 ${
-                    popupSubmitted ? "opacity-30" : "opacity-60"
-                  }`}
-                />
-              </div>
-
-              {/* Right Side - Scrollable Content */}
-              <div
-                className={`p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col transition-all duration-700 md:col-span-3 overflow-y-auto bg-white`}
-              >
-                {!popupSubmitted ? (
-                  <div className="animate-slideInRight">
-                    <h2 className="text-lg sm:text-xl md:text-2xl font-light mb-2 text-black tracking-wide">
-                      NOT READY TO START YOUR SEARCH YET?
-                    </h2>
-                    <p className="text-gray-700 mb-4 sm:mb-6 md:mb-8 text-sm sm:text-base leading-relaxed">
-                      No worries! We can keep you up to date on the market and
-                      add you to a curated Collection.
-                    </p>
-
-                    <form
-                      onSubmit={handleFormSubmit}
-                      className="space-y-3 sm:space-y-4 md:space-y-5 mb-4 sm:mb-6"
-                    >
-                      <div>
-                        <label className="block text-xs text-black mb-2 tracking-wide font-medium">
-                          Name
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border border-gray-300 text-black placeholder-gray-400 focus:outline-none focus:border-black transition-all text-sm sm:text-base"
-                          placeholder=""
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-xs text-black mb-2 tracking-wide font-medium">
-                          Phone
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border border-gray-300 text-black placeholder-gray-400 focus:outline-none focus:border-black transition-all text-sm sm:text-base"
-                          placeholder=""
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-black mb-2 tracking-wide font-medium">
-                          Email
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border border-gray-300 text-black placeholder-gray-400 focus:outline-none focus:border-black transition-all text-sm sm:text-base"
-                          placeholder=""
-                        />
-                      </div>
-
-                      <div className="flex items-start space-x-2">
-                        <input
-                          type="checkbox"
-                          id="consent"
-                          required
-                          className="mt-1 w-4 h-4 border-gray-300"
-                        />
-                        <label
-                          htmlFor="consent"
-                          className="text-xs text-gray-700 leading-relaxed"
-                        >
-                          By providing The Philip Parnanzone your contact
-                          information, you acknowledge and agree to our{" "}
-                          <a href="#" className="underline hover:text-black">
-                            Privacy Policy
-                          </a>{" "}
-                          and consent to receiving marketing communications,
-                          including through automated calls, texts, and emails,
-                          some of which may use artificial or prerecorded
-                          voices. This consent isn't necessary for purchasing
-                          any products or services and you may opt out at any
-                          time.
-                        </label>
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="w-full py-3 sm:py-4 bg-black text-white font-semibold tracking-widest hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 shadow-lg text-xs sm:text-sm"
-                      >
-                        SUBSCRIBE NOW
-                      </button>
-                    </form>
-                  </div>
-                ) : (
-                  <div className="text-center animate-fadeInUp flex flex-col justify-center h-full py-8">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 animate-scaleIn">
-                      <svg
-                        className="w-6 h-6 sm:w-8 sm:h-8 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl font-serif mb-3 sm:mb-4 text-black">
-                      Thank You!
-                    </h2>
-                    <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 px-4">
-                      We've received your information and will be in touch
-                      shortly with exclusive property updates.
-                    </p>
-                    <button
-                      onClick={() => setShowPopup(false)}
-                      className="px-6 sm:px-8 py-2 sm:py-3 bg-black text-white hover:bg-gray-800 transition-colors font-medium mx-auto text-sm sm:text-base"
-                    >
-                      Continue Exploring
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -1,9 +1,9 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Example custom utilities (optional) */
-/* .prose a { text-decoration: underline; } */
+/* Google Fonts import — Modern sans-serif */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
 /* Smooth scrolling for anchor links */
 html {
@@ -36,6 +36,16 @@ a, button, input, textarea, select, label, [role="button"], input[type="range"] 
 	transform: translateZ(0);
 }
 
+/* Hero brand name — Luxterra-style giant text */
+.hero-brand-name {
+	font-family: var(--heading-font) !important;
+	text-transform: lowercase;
+	letter-spacing: -0.02em;
+	-webkit-text-stroke: 0;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
 /* Reduce pointer-event work during scroll for heavy overlays */
 .no-pointer-during-scroll {
 	pointer-events: none;
@@ -55,28 +65,194 @@ select {
 /* Improve focus outline for selects inside dark panels */
 select:focus {
 	outline: none;
-	box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
+	box-shadow: 0 0 0 3px rgba(255,102,196,0.15);
 }
 
-/* Global heading font — use CompassSerif if available, fall back to common serif fonts */
+/* Global heading font — modern sans-serif */
 :root {
-	--heading-font: "CompassSerif", "Times New Roman", Georgia, serif;
+	--heading-font: "Poppins", "Inter", system-ui, sans-serif;
+	--pink: #ff66c4;
+	--pink-glow: rgba(255,102,196,0.25);
 }
 
 /* Apply the heading font across all headings and any element using Tailwind's font-serif utility */
 h1, h2, h3, h4, h5, h6, .font-serif {
 	font-family: var(--heading-font) !important;
-	/* preserve existing sizing utilities; only change family and smoothing */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/* Optional: ensure large headings are visually similar to provided spec */
-h1 { font-weight: 400; }
+/* Body font */
+body {
+	font-family: "Poppins", "Inter", system-ui, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* ============ MODERN UTILITY CLASSES ============ */
+
+/* Homepage section background patterns */
+.section-pattern-light {
+	background-image:
+		linear-gradient(to right, rgba(17,17,18,0.07) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(17,17,18,0.05) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(255,255,255,0.24), rgba(255,255,255,0.24));
+	background-size: 180px 180px, 180px 180px, 100% 100%;
+	background-position: center top, center top, 0 0;
+}
+
+.section-pattern-dark {
+	background-image:
+		linear-gradient(to right, rgba(255,255,255,0.09) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(255,255,255,0.07) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(17,17,17,0.2), rgba(17,17,17,0.2));
+	background-size: 180px 180px, 180px 180px, 100% 100%;
+	background-position: center top, center top, 0 0;
+}
+
+/* Glass morphism card */
+.glass {
+	background: rgba(255,255,255,0.06);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border: 1px solid rgba(255,255,255,0.08);
+}
+
+.glass-dark {
+	background: rgba(0,0,0,0.4);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(255,255,255,0.06);
+}
+
+.glass-light {
+	background: rgba(255,255,255,0.7);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Card hover lift */
+.card-hover {
+	transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+}
+.card-hover:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Modern button base */
+.btn-modern {
+	position: relative;
+	overflow: hidden;
+	transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.btn-modern::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+.btn-modern:hover::after {
+	opacity: 1;
+}
+
+/* Pink gradient button */
+.btn-pink-gradient {
+	background: linear-gradient(135deg, #ff66c4, #e855b0);
+	color: white;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 15px rgba(255,102,196,0.3);
+}
+.btn-pink-gradient:hover {
+	box-shadow: 0 8px 30px rgba(255,102,196,0.45);
+	transform: translateY(-2px);
+}
+
+/* Modern focus ring */
+.focus-modern:focus-visible {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(255,102,196,0.35);
+}
+
+/* Modern input styling */
+.input-modern {
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.input-modern:focus {
+	border-color: var(--pink);
+	box-shadow: 0 0 0 3px var(--pink-glow);
+}
+
+/* Smooth image zoom on hover */
+.img-zoom {
+	overflow: hidden;
+}
+.img-zoom img {
+	transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.img-zoom:hover img {
+	transform: scale(1.05);
+}
+
+/* Gradient text */
+.gradient-text {
+	background: linear-gradient(135deg, #ff66c4, #e855b0);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+/* Subtle section divider */
+.section-divider {
+	width: 60px;
+	height: 3px;
+	background: linear-gradient(90deg, #ff66c4, transparent);
+	border-radius: 2px;
+}
+
+/* Animated underline on hover */
+.hover-underline {
+	position: relative;
+}
+.hover-underline::after {
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background: var(--pink);
+	transition: width 0.3s ease;
+}
+.hover-underline:hover::after {
+	width: 100%;
+}
+
+/* Stagger animation for children */
+.stagger-children > * {
+	opacity: 0;
+	transform: translateY(20px);
+	animation: staggerIn 0.5s ease forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes staggerIn {
+	to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ END UTILITY CLASSES ============ */
 
 /* Make native datetime-local picker icon visible on dark backgrounds (WebKit/Blink browsers) */
 input[type="datetime-local"] {
-	color: #fff; /* ensure text is visible */
+	color: #fff;
 }
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 	filter: invert(1) grayscale(1) contrast(1.2) !important;
@@ -89,7 +265,7 @@ input[type="datetime-local"]::-moz-focus-inner {
 }
 
 /* Page Loader styles */
-.page-loader-overlay { background-color: #141414; }
+.page-loader-overlay { background-color: #0a0a0a; }
 .loader-inner { max-width: 420px; width: 100%; padding: 36px 24px; }
 .loader-rings { position: relative; width: 120px; height: 120px; margin: 0 auto; }
 .loader-rings .ring { position: absolute; left: 0; top: 0; }
@@ -146,14 +322,14 @@ input[type="datetime-local"]::-moz-focus-inner {
 	position: fixed;
 	top: 0; left: 0;
 	width: 6px; height: 6px;
-	background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.02), #141414 60%);
+	background: radial-gradient(circle at 35% 30%, rgba(255,102,196,0.3), #141414 60%);
 	border-radius: 9999px;
 	transform: translate3d(-50%, -50%, 0);
 	z-index: 2147483647;
 	pointer-events: none;
 	mix-blend-mode: normal;
 	transition: background 200ms ease, transform 120ms ease;
-	box-shadow: 0 6px 18px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.4) inset;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 .custom-cursor-ring {
@@ -162,10 +338,10 @@ input[type="datetime-local"]::-moz-focus-inner {
 	width: 36px; height: 36px;
 	border-radius: 50%;
 	transform: translate3d(-50%, -50%, 0);
-	background: radial-gradient(circle at center, rgba(20,20,20,0.12), rgba(20,20,20,0.02));
-	border: 1px solid rgba(20,20,20,0.08);
+	background: radial-gradient(circle at center, rgba(255,102,196,0.06), transparent);
+	border: 1px solid rgba(255,102,196,0.12);
 	backdrop-filter: blur(4px);
-	box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+	box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 	z-index: 2147483646;
 	pointer-events: none;
 	transition: transform 220ms cubic-bezier(.2,.9,.3,1), opacity 220ms ease;
@@ -193,21 +369,23 @@ input[type="range"]:focus { outline: none; }
 
 input[type="range"]::-webkit-slider-runnable-track {
 	height: 6px;
-	background: #141414;
+	background: linear-gradient(90deg, #ff66c4, #e855b0);
 	border-radius: 9999px;
 }
 input[type="range"]::-webkit-slider-thumb {
 	-webkit-appearance: none;
-	width: 16px; height: 16px; margin-top: -5px;
-	background: #141414; border-radius: 9999px; box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+	width: 18px; height: 18px; margin-top: -6px;
+	background: #ff66c4; border-radius: 9999px; box-shadow: 0 2px 8px rgba(255,102,196,0.4);
+	border: 2px solid white;
 }
 
-input[type="range"]::-moz-range-track { height: 6px; background: #141414; border-radius: 9999px; }
-input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; background: #141414; border-radius: 9999px; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
+input[type="range"]::-moz-range-track { height: 6px; background: linear-gradient(90deg, #ff66c4, #e855b0); border-radius: 9999px; }
+input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; background: #ff66c4; border-radius: 9999px; box-shadow: 0 2px 8px rgba(255,102,196,0.4); border: 2px solid white; }
 
 /* Vertical scrollbar styling (WebKit) */
-*::-webkit-scrollbar { width: 10px; height: 10px; }
-*::-webkit-scrollbar-track { background: transparent; }
-*::-webkit-scrollbar-thumb { background-color: #141414; border-radius: 9999px; border: 2px solid rgba(255,255,255,0.02); }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); }
+*::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ff66c4, #e855b0); border-radius: 9999px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-thumb:hover { background: #ff66c4; border-radius: 9999px; }
 
 
