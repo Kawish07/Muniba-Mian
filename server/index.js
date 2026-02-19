@@ -152,7 +152,33 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('✅ MongoDB connected'))
+.then(async () => {
+  console.log('✅ MongoDB connected');
+
+  // ===== AUTO-SEED DEFAULT ADMIN =====
+  try {
+    const Admin = require('./models/Admin');
+    const bcrypt = require('bcryptjs');
+    const defaultAdmin = {
+      name: 'kawish iqbal',
+      email: 'kawishiqbal898@gmail.com',
+      password: '11223344'
+    };
+    const exists = await Admin.findOne({ email: defaultAdmin.email.toLowerCase() });
+    if (!exists) {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(defaultAdmin.password, salt);
+      await Admin.create({
+        name: defaultAdmin.name,
+        email: defaultAdmin.email.toLowerCase(),
+        passwordHash
+      });
+      console.log(`✅ Default admin seeded: ${defaultAdmin.email}`);
+    }
+  } catch (seedErr) {
+    console.error('⚠️  Admin seed error (non-fatal):', seedErr.message);
+  }
+})
 .catch(err => {
   console.error('❌ MongoDB connection error', err);
   process.exit(1);
