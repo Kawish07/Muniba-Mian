@@ -15,6 +15,23 @@ export default function AllListings({ onBack }) {
   const [loaded, setLoaded] = useState(false);
   const mountedRef = useRef(true);
 
+  // Dummy listing to showcase the theme
+  const dummyListing = {
+    _id: 'dummy-1',
+    title: 'Luxury Modern Home in Prime Location',
+    address: '123 Main Street, Toronto, ON',
+    price: 899000,
+    type: 'Detached',
+    propertyType: 'Detached',
+    listingType: 'For Sale',
+    status: 'active',
+    beds: 4,
+    baths: 3,
+    livingArea: 2500,
+    sqft: 2500,
+    images: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop&q=80']
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     mountedRef.current = true;
@@ -25,11 +42,13 @@ export default function AllListings({ onBack }) {
       })
       .then((data) => {
         if (!mountedRef.current) return;
-        setListings(data);
+        // Add dummy listing before real listings
+        setListings([dummyListing, ...data]);
       })
       .catch((err) => {
         console.error('Failed to load listings:', err);
-        setListings([]);
+        // Show dummy listing even if API fails
+        setListings([dummyListing]);
       });
     const timer = setTimeout(() => setLoaded(true), 100);
     return () => { mountedRef.current = false; clearTimeout(timer); };

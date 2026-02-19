@@ -24,7 +24,7 @@ export default function Footer() {
             <nav className="space-y-3 mb-12">
               <Link to="/" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>Home</Link>
               <Link to="/listings" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>Listings</Link>
-              <a href="#team" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>About us</a>
+              <a href="/our-team" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>Our Team</a>
               <a href="#contact" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>Contact</a>
             </nav>
 
@@ -45,9 +45,7 @@ export default function Footer() {
           {/* Column 2 — Newsletter */}
           <div>
             <p className="text-sm text-white text-center leading-relaxed mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Subscribe to our newsletter to get<br />
-              market updates, new listings, exclusive<br />
-              insights & more
+              Provide Your email and get the latest news and updates from us within 24 hours. We promise not to spam you!
             </p>
             <form onSubmit={handleSubscribe} className="flex items-center border-b border-gray-600 pb-2">
               <input
@@ -68,7 +66,7 @@ export default function Footer() {
           <div className="text-right">
             <p className="text-sm text-gray-500 mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>Pages</p>
             <nav className="space-y-3 mb-12">
-              <a href="#team" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>About us</a>
+              <a href="/our-team" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>Our Team</a>
               <Link to="/listings" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>Listings</Link>
               <Link to="/testimonials" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>Testimonials</Link>
             </nav>
@@ -77,6 +75,7 @@ export default function Footer() {
             <div className="space-y-2">
               <a href="tel:+14169095662" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>+1 (416) 909-5662</a>
               <a href="mailto:muniba.mian@century21.ca" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>muniba.mian@century21.ca</a>
+              <a href="mailto:kay21real@gmail.com" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>kay21real@gmail.com</a>
               <p className="text-sm text-white leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
                 2855 Markham Rd Suite 300,<br />
                 Scarborough, ON
@@ -88,8 +87,8 @@ export default function Footer() {
 
       {/* Giant Brand Name at Bottom */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-8 overflow-hidden">
-        <h2 className="text-[18vw] md:text-[14vw] lg:text-[12vw] font-bold text-white leading-none select-none tracking-tight" style={{ fontFamily: "'Inter', sans-serif", WebkitTextStroke: '1px rgba(255,255,255,0.15)', background: 'linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', lineHeight: '0.85' }}>
-          Muniba Mian
+        <h2 className="font-bold text-white leading-none select-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Inter', sans-serif", fontSize: 'min(12vw, 160px)', WebkitTextStroke: '1px rgba(255,255,255,0.15)', background: 'linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', lineHeight: '1' }}>
+          KM &amp; co Realty.
         </h2>
       </div>
     </footer>

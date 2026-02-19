@@ -14,12 +14,13 @@ const teamMembers = [
         href: "https://www.facebook.com/kayode.adekoya.75/",
       },
     ],
-    bio: "Kayode Adekoya is an award-winning real estate professional dedicated to helping clients confidently buy, sell, and lease property. He holds multiple industry designations, including Accredited Buyer’s Representative (ABR®), Seller Representative Specialist (SRS), Real Estate Negotiation Expert (RENE), and Seniors Real Estate Specialist® (SRES®)—equipping him with specialized expertise in buyer and seller representation, negotiation strategy, and senior-focused transitions. With a background in finance and early exposure to construction and development, Kayode brings strong market insight and analytical skills to every transaction. He works with individuals, families, and investors locally and internationally, helping them make informed real estate decisions with clarity and confidence. A proud husband and father of two, Kayode approaches real estate with energy, dedication, and a genuine passion for helping clients find a place they can truly call home.",
+    bio: "Kayode Adekoya is an award-winning real estate professional dedicated to helping clients confidently buy, sell, and lease property. He holds multiple industry designations, including Accredited Buyer’s Representative (ABR®), Seller Representative Specialist (SRS), Real Estate Negotiation Expert (RENE), and Seniors Real Estate Specialist® (SRES®)—equipping him with specialized expertise in buyer and seller representation, negotiation strategy, and senior-focused transitions. With a background in finance and early exposure to construction and development, Kayode brings strong market insight and analytical skills to every transaction. He works with individuals, families, and investors locally and internationally, helping them make informed real estate decisions with clarity and confidence. A proud husband and father of two, Kayode approaches real estate with energy, dedication, and a genuine passion for helping clients find a place they can truly call home. He is committed to continuous learning and staying ahead of market trends to provide clients with the most accurate guidance. Known for his integrity and personalized approach, Kayode ensures every client experience is seamless and rewarding. He believes that building lasting relationships and earning trust is just as important as closing deals.",
   },
   {
     name: "Muniba Mian",
     title: "Real Estate Agent",
     image: "/images/team member female 2.jpg",
+    email: "muniba.mian@century21.ca",
     socials: [
       { label: "Facebook", href: "https://www.facebook.com/dealzinheelz.ca/" },
       {
@@ -31,7 +32,7 @@ const teamMembers = [
         href: "https://www.tiktok.com/@dealzinheelz.realestate?_r=1&_t=ZS-93oQ3jmf18x",
       },
     ],
-    bio: "Real estate isn’t just transactions to me — it’s about people, timing, and helping someone make one of the biggest financial decisions of their life with confidence. I work with first-time home buyers, investors, renters, and sellers across the Greater Toronto Area, with a strong focus on the Durham Region. Whether you’re stepping into the market for the first time, growing your portfolio, or preparing to sell, I bring clear guidance, honest conversations, and practical strategy to the table. No jargon. No pressure. Just real support from start to finish. I believe the best results come from understanding your goals first — not pushing a quick deal. Every client’s situation is different, and I take the time to tailor the process so it actually works for you. Real estate can feel overwhelming, but with the right plan and the right partner, it becomes manageable — and even exciting. My path into real estate is rooted in resilience and independence. As a single mom building a career on my own terms, I learned firsthand the value of financial stability, smart decision-making, and creating opportunities rather than waiting for them. That experience shapes how I work today — with empathy, determination, and a genuine commitment to helping others move forward and build something of their own. At the end of the day, my goal is simple: help you make smart, confident moves that set you up for long-term success.",
+    bio: "Real estate isn’t just transactions to me it’s about people, timing, and helping someone make one of the biggest financial decisions of their life with confidence. I work with first-time home buyers, investors, renters, and sellers across the Greater Toronto Area, with a strong focus on the Durham Region. Whether you’re stepping into the market for the first time, growing your portfolio, or preparing to sell, I bring clear guidance, honest conversations, and practical strategy to the table. No jargon. No pressure. Just real support from start to finish. I believe the best results come from understanding your goals first not pushing a quick deal. Every client’s situation is different, and I take the time to tailor the process so it actually works for you. Real estate can feel overwhelming, but with the right plan and the right partner, it becomes manageable and even exciting. My path into real estate is rooted in resilience and independence. As a single mom building a career on my own terms, I learned firsthand the value of financial stability, smart decision-making, and creating opportunities rather than waiting for them. That experience shapes how I work today with empathy, determination, and a genuine commitment to helping others move forward and build something of their own. At the end of the day, my goal is simple: help you make smart, confident moves that set you up for long-term success.",
   },
 ];
 
@@ -79,10 +80,7 @@ export default function OurTeam() {
             className="text-base md:text-lg text-gray-500 max-w-4xl leading-relaxed text-justify"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            {/* We guide buyers and sellers through every step with clarity,
-            offering curated listings, market insight, and personalized
-            service across the Greater Toronto Area. */}
-            Real estate is about more than transactions — it’s about people,
+            Real estate is about more than transactions it’s about people,
             timing, and guiding clients through some of life’s biggest financial
             decisions with confidence. Together, Muniba and Kayode combine
             relationship-driven service with strategic expertise to deliver a
@@ -94,7 +92,7 @@ export default function OurTeam() {
             understands firsthand the importance of financial stability and
             informed decision-making. She works closely with first-time buyers,
             growing investors, renters, and sellers, ensuring each client’s
-            goals shape the process — never the other way around. Her focus is
+            goals shape the process never the other way around. Her focus is
             on real conversations, personalized guidance, and making complex
             decisions feel manageable and empowering. Kayode complements that
             approach with award-winning industry experience and specialized
@@ -104,7 +102,7 @@ export default function OurTeam() {
             negotiation to every transaction. He supports individuals, families,
             and investors locally and internationally, helping them move forward
             with clarity and confidence. Together, they offer clients the best
-            of both worlds — personalized care backed by strong expertise and
+            of both worlds personalized care backed by strong expertise and
             strategic execution. Their shared commitment is simple: to help you
             make informed, confident real estate decisions and achieve outcomes
             that support your long-term success.

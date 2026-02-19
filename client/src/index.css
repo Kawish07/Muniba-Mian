@@ -15,6 +15,43 @@ html, body, #root {
   overflow-x: hidden;
 }
 
+/* Fix double scrollbar issue - ensure only one scrollbar visible */
+body {
+  overflow-y: auto;
+}
+
+#root {
+  overflow-y: visible;
+}
+
+/* Lenis smooth scroll - hide extra scrollbar when active */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+html.lenis {
+  overflow: auto;
+}
+
+html.lenis body {
+  overflow: visible;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* Hide scrollbar for inner wrappers */
+#root > div,
+#root > div > div {
+  overflow-y: visible;
+  overflow-x: hidden;
+}
+
 /* Ensure native pointer is available site-wide and make interactive elements show pointer */
 html, body, #root { cursor: auto; }
 
@@ -382,10 +419,19 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-moz-range-track { height: 6px; background: linear-gradient(90deg, #ff66c4, #e855b0); border-radius: 9999px; }
 input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; background: #ff66c4; border-radius: 9999px; box-shadow: 0 2px 8px rgba(255,102,196,0.4); border: 2px solid white; }
 
-/* Vertical scrollbar styling (WebKit) */
-*::-webkit-scrollbar { width: 8px; height: 8px; }
-*::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); }
-*::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ff66c4, #e855b0); border-radius: 9999px; border: 2px solid transparent; background-clip: padding-box; }
-*::-webkit-scrollbar-thumb:hover { background: #ff66c4; border-radius: 9999px; }
+/* Vertical scrollbar styling (WebKit) - Only for body/html */
+html::-webkit-scrollbar, body::-webkit-scrollbar { width: 8px; height: 8px; }
+html::-webkit-scrollbar-track, body::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); }
+html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ff66c4, #e855b0); border-radius: 9999px; border: 2px solid transparent; background-clip: padding-box; }
+html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover { background: #ff66c4; border-radius: 9999px; }
+
+/* Hide scrollbar for other nested containers */
+.lenis, .lenis-wrapper, #root > div {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.lenis::-webkit-scrollbar, .lenis-wrapper::-webkit-scrollbar, #root > div::-webkit-scrollbar {
+  display: none;
+}
 
 

@@ -21,6 +21,24 @@ export default function ListingDetail() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewIndex, setPreviewIndex] = useState(0);
 
+  // Dummy listing data
+  const dummyListing = {
+    _id: 'dummy-1',
+    title: 'Luxury Modern Home in Prime Location',
+    address: '123 Main Street, Toronto, ON',
+    price: 899000,
+    type: 'Detached',
+    listingType: 'For Sale',
+    status: 'For Sale',
+    beds: 4,
+    baths: 3,
+    livingArea: 2500,
+    sqft: 2500,
+    description: 'This stunning luxury home features modern design and premium finishes throughout. Located in a prime neighborhood with easy access to schools, shopping, and transit. Perfect for families looking for a spacious and elegant living space. The open-concept layout includes a gourmet kitchen with stainless steel appliances, a bright living room with large windows, and a beautiful backyard ideal for entertaining.',
+    features: ['Hardwood Floors', 'Updated Kitchen', 'Finished Basement', 'Attached Garage', 'Central Air', 'Modern Bathrooms'],
+    images: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop&q=80']
+  };
+
   const openPreview = (index = 0) => {
     setPreviewIndex(index || 0);
     setPreviewOpen(true);
@@ -41,6 +59,14 @@ export default function ListingDetail() {
   };
 
   useEffect(() => {
+    // Check if this is the dummy listing
+    if (id === 'dummy-1') {
+      setListing(dummyListing);
+      setLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch from API
     setLoading(true);
     fetch(`${API}/api/listings/${id}`)
       .then((r) => {

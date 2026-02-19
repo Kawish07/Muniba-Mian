@@ -155,7 +155,22 @@ export default function App() {
     return () => window.removeEventListener("startPageLoad", onStart);
   }, []);
 
-  const [allListings, setAllListings] = useState([]);
+  // Dummy listing to showcase the theme
+  const dummyListing = {
+    _id: 'dummy-1',
+    title: 'Luxury Modern Home in Prime Location',
+    address: '123 Main Street, Toronto, ON',
+    price: 899000,
+    type: 'Detached',
+    listingType: 'For Sale',
+    beds: 4,
+    baths: 3,
+    livingArea: 2500,
+    sqft: 2500,
+    images: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop&q=80']
+  };
+
+  const [allListings, setAllListings] = useState([dummyListing]);
   const [visibleListings, setVisibleListings] = useState(6);
   const [testimonialStartIndex, setTestimonialStartIndex] = useState(0);
 
@@ -174,7 +189,8 @@ export default function App() {
         const data = await res.json();
         if (!mounted) return;
         if (Array.isArray(data)) {
-          setAllListings(data);
+          // Add real listings after the dummy listing
+          setAllListings([dummyListing, ...data]);
         }
       } catch (e) { /* noop */ }
     };
@@ -273,7 +289,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white relative">
+    <div className="min-h-screen bg-white relative overflow-x-hidden">
       {/* Background Grid Lines Pattern */}
       <div className="fixed inset-0 pointer-events-none z-0" style={{ maxWidth: '1280px', margin: '0 auto', left: 0, right: 0 }}>
         <div className="absolute inset-y-0 left-[25%] w-px bg-gray-200/60" />
@@ -281,7 +297,7 @@ export default function App() {
         <div className="absolute inset-y-0 left-[75%] w-px bg-gray-200/60" />
       </div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 overflow-x-hidden">
       <PageLoader open={globalLoading} />
       <TransitionSplash />
       <Header />
@@ -304,9 +320,9 @@ export default function App() {
         <div className="relative z-10 h-full flex flex-col justify-between px-8 md:px-16 lg:px-20 pb-10 pt-32">
           {/* Main Text */}
           <div className="flex-1 flex flex-col justify-center max-w-2xl">
-            <p className="text-white/60 text-sm tracking-[0.25em] uppercase mb-6 font-light">Sales Representative · Greater Toronto Area</p>
+            <p className="text-white/60 text-sm tracking-[0.25em] uppercase mb-6 font-light">Real Estate Team · Greater Toronto Area</p>
             <h1 className="text-3xl sm:text-4xl md:text-[2.75rem] leading-snug font-light text-white mb-8" style={{ lineHeight: '1.35' }}>
-              We help buyers and sellers navigate real estate with clarity—featuring curated listings and seamless support.
+              We help buyers and sellers navigate real estate with clarity featuring curated listings and seamless support.
             </h1>
             <div className="flex items-center space-x-4">
               <Link
@@ -322,24 +338,11 @@ export default function App() {
                 Contact
               </button>
             </div>
-
-            {/* Social Media Links */}
-            <div className="flex space-x-3 mt-6">
-              <a href="https://www.facebook.com/dealzinheelz.ca/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-pink-400 hover:border-pink-400 transition-all duration-300 hover:scale-110">
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a href="https://www.instagram.com/dealzinheelz.realestate?igsh=MWRyYmlnbGIzMjk3cA==" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-pink-400 hover:border-pink-400 transition-all duration-300 hover:scale-110">
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a href="https://www.tiktok.com/@dealzinheelz.realestate?_r=1&_t=ZS-93oQ3jmf18x" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-pink-400 hover:border-pink-400 transition-all duration-300 hover:scale-110">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52V6.8a4.83 4.83 0 01-1-.11z"/></svg>
-              </a>
-            </div>
           </div>
 
           {/* Bottom: giant brand name + floating card */}
           <div className="relative">
-            <h2 className="hero-brand-name text-[12vw] md:text-[10vw] lg:text-[9vw] font-bold text-white leading-none tracking-tight select-none" style={{ lineHeight: '0.85', opacity: 0.95 }}>
+            <h2 className="hero-brand-name text-[12vw] md:text-[10vw] lg:text-[9vw] font-bold text-white leading-none tracking-tight select-none pb-3" style={{ lineHeight: '1', opacity: 0.95 }}>
               KM & co Realty.
             </h2>
 
@@ -348,9 +351,11 @@ export default function App() {
               className="hidden md:flex absolute bottom-4 right-0 items-center space-x-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-5 py-4 cursor-pointer hover:bg-white/15 transition-all duration-300 group"
               onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
             >
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-pink-500 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                M
-              </div>
+              <img
+                src="/images/team member female 2.jpg"
+                alt="Muniba Mian"
+                className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-white/30"
+              />
               <div>
                 <p className="text-white/50 text-xs font-light">Let's help you</p>
                 <p className="text-white text-sm font-medium group-hover:text-pink-300 transition-colors">Talk to an agent</p>
@@ -532,10 +537,14 @@ export default function App() {
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 rounded-full bg-pink-400"></div>
                 <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>Why us</span>
+                
+
+                {/* <h2 className="text-4xl md:text-5xl font-medium" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Why Choose Our Agency</h2> */}
               </div>
               <div className="flex-1 h-px bg-gray-200"></div>
             </div>
-            <h2 className="text-4xl md:text-5xl font-medium" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>GTA's home experts</h2>
+            <h2 className="text-4xl md:text-5xl font-medium" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Why Choose Our Agency</h2>
+            <p className="text-gray-500 mt-3" style={{ fontFamily: "'Inter', sans-serif" }}>Trusted, Experienced, Client-Focused</p>
           </div>
 
           {/* Bento Grid */}
@@ -543,7 +552,7 @@ export default function App() {
             {/* Left — Large image card */}
             <div className="relative overflow-hidden h-[580px] bg-black">
               <img
-                src="images/whyus.jpg"
+                src="images/team member male 1.jpeg"
                 alt="Real estate expert"
                 className="w-full h-full object-cover opacity-70"
               />
@@ -551,62 +560,43 @@ export default function App() {
               <div className="absolute bottom-0 left-0 p-6">
                 <div className="flex items-center space-x-2 mb-2">
                   <div className="w-2 h-2 rounded-full bg-pink-400"></div>
-                  <span className="text-sm text-pink-300 font-medium">GTA's best agency</span>
+                  <span className="text-sm text-pink-300 font-medium">best agency</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  2k clients choose our trusted agency
+                  Trusted guidance for every real estate journey
                 </h3>
                 <p className="text-white/60 text-xs mt-2 max-w-sm">
-                  Choosing us matters — experience and clear guidance shape every real-estate decision. We help clients move forward with confidence.
+                  With award-winning expertise, deep market knowledge, and personalized strategies, we empower clients to make confident decisions, achieve their goals, and build lasting relationships
                 </p>
               </div>
             </div>
 
-            {/* Right — 2x2 Stats Grid */}
-            <div className="grid grid-cols-2 gap-5 h-[580px]">
-              {/* Stat Card 1 */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>84%</p>
-                    <p className="text-sm font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Close faster</p>
-                  </div>
-                  <svg className="w-6 h-6 text-gray-300 group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" /></svg>
+            {/* Right — Content Paragraph */}
+            <div className="bg-white border border-gray-200 rounded-2xl p-8 md:p-12 flex flex-col justify-center h-[580px]">
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
+                Choosing the right real estate partner is more than just completing a transaction it's about guidance, clarity, and building trust. Our team combines award-winning expertise, deep market knowledge, and a personalized approach to ensure every client feels confident at every step. We understand the unique needs of buyers, sellers, renters, and investors, and we tailor our strategies to match each client's goals. With a focus on transparency, proactive communication, and a commitment to results, we help clients make informed decisions, navigate complex processes, and achieve their real estate objectives with confidence.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
+                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Personalized guidance for buyers, sellers, and investors</p>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">Clients working with skilled agents complete their transactions faster.</p>
-              </div>
-              {/* Stat Card 2 */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>3 in 5</p>
-                    <p className="text-sm font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Win offers</p>
-                  </div>
-                  <svg className="w-6 h-6 text-gray-300 group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg>
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
+                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Deep understanding of local and international markets</p>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">More than half of our clients secure their ideal home on the first or second offer.</p>
-              </div>
-              {/* Stat Card 3 */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>$5M+</p>
-                    <p className="text-sm font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Saved yearly</p>
-                  </div>
-                  <svg className="w-6 h-6 text-gray-300 group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" /></svg>
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
+                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Clear communication and timely updates throughout every step</p>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">We help buyers avoid overpaying while securing value in the market.</p>
-              </div>
-              {/* Stat Card 4 */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>95%</p>
-                    <p className="text-sm font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Refer friends</p>
-                  </div>
-                  <svg className="w-6 h-6 text-gray-300 group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
+                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Trusted, ethical, and relationship-focused approach</p>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">Most clients recommend our team after experiencing smooth closings.</p>
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
+                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Expertise in negotiation, investment strategy, and senior transitions</p>
+                </div>
               </div>
             </div>
           </div>
@@ -790,11 +780,18 @@ export default function App() {
 
               {/* Agent Card */}
               <div className="mt-auto">
-                <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80"
-                  alt="Muniba Mian"
-                  className="w-28 h-28 rounded-xl object-cover mb-4"
-                />
+                <div className="flex items-center gap-3 mb-4">
+                  <img
+                    src="/images/team member female 2.jpg"
+                    alt="Muniba Mian"
+                    className="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover"
+                  />
+                  <img
+                    src="/images/team member male 1.jpeg"
+                    alt="Kayode Adekoya"
+                    className="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover"
+                  />
+                </div>
                 <p className="text-sm leading-relaxed mb-4" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
                   Have more questions? Our team is<br />happy to help.
                 </p>
@@ -825,7 +822,7 @@ export default function App() {
                 },
                 {
                   q: 'Do you assist with selling my current home?',
-                  a: 'Yes, we provide full-service support for sellers — from pricing strategy and staging advice to professional photography, marketing, and negotiation. We work to get you the best possible outcome.'
+                  a: 'Yes, we provide full-service support for sellers from pricing strategy and staging advice to professional photography, marketing, and negotiation. We work to get you the best possible outcome.'
                 },
                 {
                   q: 'Are virtual tours available for out-of-province buyers?',
