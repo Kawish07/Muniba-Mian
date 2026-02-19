@@ -117,6 +117,14 @@ export default function Header({ onBack, light = false }) {
             lenis.on('scroll', handleScroll);
         }
 
+        // Initialize state from current scroll position so header/bottom-nav
+        // display correctly on first load or after a refresh.
+        try {
+            const initialScroll = (lenis && typeof lenis.scroll === 'number') ? lenis.scroll : window.scrollY || 0;
+            lastScrollY.current = initialScroll;
+            // run the handler once to set atTop/showHeader based on current position
+            handleScroll(initialScroll);
+        } catch (e) { }
         // Always add wheel listener as backup
         window.addEventListener('wheel', onWheel, { passive: true });
         window.addEventListener('touchstart', onTouchStart, { passive: true });
