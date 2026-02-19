@@ -1,29 +1,14 @@
 ﻿import React, { useState, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
-import { X, Facebook, Instagram } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { getLenis } from "./lib/lenis";
 import { resolveImage, ensureProtocol, API } from "./lib/image";
 import PageLoader from "./components/PageLoader";
 import TransitionSplash from "./components/TransitionSplash";
-import FloatingCTA from "./components/FloatingCTA";
 
 export default function App() {
-  const [showLeftPopup, setShowLeftPopup] = useState(false);
-  const [leftSubmitted, setLeftSubmitted] = useState(false);
-  const [leftAnimating, setLeftAnimating] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    interest: "",
-    message: "",
-    bestTime: "",
-  });
-  const [leftLoading, setLeftLoading] = useState(false);
-  const [leftError, setLeftError] = useState(null);
   const [globalLoading, setGlobalLoading] = useState(true);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const videoRef = useRef(null);
@@ -31,6 +16,7 @@ export default function App() {
   const ticking = useRef(false);
   const [showHeader, setShowHeader] = useState(true);
   const isInitialMount = useRef(true); // Track if this is the first mount
+  const [listingFilter, setListingFilter] = useState('sale'); // 'sale' or 'rent'
 
   const location = useLocation();
 
@@ -169,13 +155,14 @@ export default function App() {
     return () => window.removeEventListener("startPageLoad", onStart);
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, type, value, checked } = e.target;
-    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
-  };
-
   const [allListings, setAllListings] = useState([]);
   const [visibleListings, setVisibleListings] = useState(6);
+  const [testimonialStartIndex, setTestimonialStartIndex] = useState(0);
+
+  // Reset visible listings when filter changes
+  useEffect(() => {
+    setVisibleListings(6);
+  }, [listingFilter]);
 
   // Fetch all listings for homepage grid
   useEffect(() => {
@@ -194,61 +181,6 @@ export default function App() {
     fetchListings();
     return () => { mounted = false; };
   }, [API]);
-  const handleLeftSubmit = async (e) => {
-    e.preventDefault();
-    setLeftError(null);
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.interest ||
-      !formData.bestTime
-    ) {
-      setLeftError(
-        "Please complete all required fields and select a preferred date/time.",
-      );
-      return;
-    }
-    setLeftLoading(true);
-    try {
-      // Prepare payload
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        bestTime: formData.bestTime,
-        timezone: "ET",
-        interest: formData.interest,
-      };
-
-      const response = await fetch(`${API}/api/letsconnect`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => "Failed to submit");
-        throw new Error(
-          errorText || "Failed to submit. Please try again later.",
-        );
-      }
-
-      setLeftSubmitted(true);
-      setFormData({
-        name: "",
-        phone: "",
-        email: "",
-        interest: "",
-        bestTime: "",
-      });
-    } catch (err) {
-      console.error("LetsConnect submit failed", err);
-      setLeftError("Failed to submit. Please try again.");
-    } finally {
-      setLeftLoading(false);
-    }
-  };
 
   const handleVideoPlay = () => {
     if (videoRef.current) {
@@ -260,6 +192,84 @@ export default function App() {
         setVideoPlaying(true);
       }
     }
+  };
+
+  const homepageTestimonials = [
+    {
+      name: "Missy Scaletta",
+      preview:
+        "We had the pleasure of working with Muniba to find our perfect home, and she went above and beyond to make sure we found everything we wanted and more. From the start, Muniba was attentive, patient, and incredibly knowledgeable.",
+      role: "Client",
+    },
+    {
+      name: "Gaurav Maheshwari",
+      preview:
+        "First time I worked with Muniba when I was looking for a rental house in 2022 and had a really pleasant experience working with her which eventually prompted me to reach out to her again when I was planning to buy a house.",
+      role: "Client",
+    },
+    {
+      name: "Chruz Cruz",
+      preview:
+        "As a first-time homeowner, I was quite nervous about the process, but working with Muniba made everything so much easier. She was incredibly responsive, always available to answer my questions and address any concerns I had.",
+      role: "Client",
+    },
+    {
+      name: "Tiara Leah",
+      preview:
+        "Having worked in real estate for several years, I have encountered both good and bad realtors. Muniba not only lived up to our expectations, but went far above and beyond.",
+      role: "Client",
+    },
+    {
+      name: "Jawad Khairkhwa",
+      preview:
+        "Muniba is a great agent. She was able to find us a house in only a few days, quicker than agents who had been working with us for months. She is very quick and smart with her work. Highly recommend working with her.",
+      role: "Client",
+    },
+    {
+      name: "Tammy McGinn",
+      preview:
+        "Muniba is a fantastic realtor to work with. She works very hard for her clients, and is an absolute joy to be around. She worked tirelessly to help me find a place in my desired location. Highly recommend.",
+      role: "Client",
+    },
+    {
+      name: "Galen Midwinter",
+      preview:
+        "Words have trouble capturing how much I recommend Muniba as a real estate professional. Her tireless dedication, immediate feedback, instant follow up and caring professionalism not only was appreciated but also landed my family a home.",
+      role: "Client",
+    },
+    {
+      name: "Fazena Abdul",
+      preview:
+        "Very professional, helpful and honest. Respond promptly to emails and telephone.",
+      role: "Client",
+    },
+    {
+      name: "Renganathan V Anand",
+      preview: "Recommended and a true professional.",
+      role: "Client",
+    },
+  ];
+
+  const visibleHomepageTestimonials =
+    homepageTestimonials.length > 1
+      ? [0, 1].map(
+          (offset) =>
+            homepageTestimonials[
+              (testimonialStartIndex + offset) % homepageTestimonials.length
+            ]
+        )
+      : homepageTestimonials;
+
+  const handlePreviousTestimonial = () => {
+    setTestimonialStartIndex((prev) =>
+      prev === 0 ? homepageTestimonials.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextTestimonial = () => {
+    setTestimonialStartIndex(
+      (prev) => (prev + 1) % homepageTestimonials.length
+    );
   };
 
   return (
@@ -330,7 +340,7 @@ export default function App() {
           {/* Bottom: giant brand name + floating card */}
           <div className="relative">
             <h2 className="hero-brand-name text-[12vw] md:text-[10vw] lg:text-[9vw] font-bold text-white leading-none tracking-tight select-none" style={{ lineHeight: '0.85', opacity: 0.95 }}>
-              Muniba Mian
+              KM & co Realty.
             </h2>
 
             {/* Floating Agent Card */}
@@ -415,14 +425,32 @@ export default function App() {
             <h2 className="text-4xl md:text-5xl font-medium" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Our recent listings</h2>
             {/* Filter Tabs */}
             <div className="flex items-center justify-center space-x-3 mt-6">
-              <button className="px-5 py-2 text-sm font-medium rounded-full border border-black bg-black text-white" style={{ fontFamily: "'Inter', sans-serif" }}>For sale</button>
-              <button className="px-5 py-2 text-sm font-medium rounded-full border border-gray-300 text-gray-500 hover:border-black hover:text-black transition-all" style={{ fontFamily: "'Inter', sans-serif" }}>For rent</button>
+              <button 
+                onClick={() => setListingFilter('sale')}
+                className={`px-5 py-2 text-sm font-medium rounded-full border transition-all ${listingFilter === 'sale' ? 'border-black bg-black text-white' : 'border-gray-300 text-gray-500 hover:border-black hover:text-black'}`} 
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                For sale
+              </button>
+              <button 
+                onClick={() => setListingFilter('rent')}
+                className={`px-5 py-2 text-sm font-medium rounded-full border transition-all ${listingFilter === 'rent' ? 'border-black bg-black text-white' : 'border-gray-300 text-gray-500 hover:border-black hover:text-black'}`} 
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                For rent
+              </button>
             </div>
           </div>
 
           {/* Listings Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {allListings.slice(0, visibleListings).map((listing) => (
+            {allListings
+              .filter(listing => {
+                const type = (listing.listingType || listing.status || '').toLowerCase();
+                return listingFilter === 'sale' ? type.includes('sale') : type.includes('rent');
+              })
+              .slice(0, visibleListings)
+              .map((listing) => (
               <Link
                 key={listing._id}
                 to={'/listing/' + listing._id}
@@ -437,7 +465,9 @@ export default function App() {
                   />
                   {/* Tags */}
                   <div className="absolute top-4 left-4 flex space-x-2">
-                    <span className="px-3 py-1 bg-black/80 backdrop-blur-sm text-xs font-medium text-white rounded-full" style={{ fontFamily: "'Inter', sans-serif" }}>For sale</span>
+                    <span className="px-3 py-1 bg-black/80 backdrop-blur-sm text-xs font-medium text-white rounded-full" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      {listingFilter === 'sale' ? 'For sale' : 'For rent'}
+                    </span>
                     <span className="px-3 py-1 bg-black/80 backdrop-blur-sm text-xs font-medium text-white rounded-full" style={{ fontFamily: "'Inter', sans-serif" }}>{listing.type || 'Property'}</span>
                   </div>
                 </div>
@@ -465,8 +495,21 @@ export default function App() {
             ))}
           </div>
 
+          {/* No listings message */}
+          {allListings.filter(listing => {
+            const type = (listing.listingType || listing.status || '').toLowerCase();
+            return listingFilter === 'sale' ? type.includes('sale') : type.includes('rent');
+          }).length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-400 text-lg" style={{ fontFamily: "'Inter', sans-serif" }}>No listings available yet.</p>
+            </div>
+          )}
+
           {/* Load More Button */}
-          {allListings.length > visibleListings && (
+          {allListings.filter(listing => {
+            const type = (listing.listingType || listing.status || '').toLowerCase();
+            return listingFilter === 'sale' ? type.includes('sale') : type.includes('rent');
+          }).length > visibleListings && (
             <div className="text-center mt-12">
               <button
                 onClick={() => setVisibleListings((prev) => prev + 6)}
@@ -475,11 +518,6 @@ export default function App() {
                 Load More
               </button>
             </div>
-          )}
-
-          {/* No listings message */}
-          {allListings.length === 0 && (
-            <p className="text-center text-gray-400 text-sm">No listings available yet.</p>
           )}
         </div>
       </section>
@@ -687,44 +725,51 @@ export default function App() {
                 </h2>
               </div>
               <div className="flex items-center space-x-3 mt-auto pt-12">
-                <button className="w-11 h-11 rounded-full border border-gray-300 bg-transparent flex items-center justify-center text-gray-400 hover:border-black hover:text-black transition-all duration-200">
+                <button
+                  onClick={handlePreviousTestimonial}
+                  className="w-11 h-11 rounded-full border border-gray-300 bg-transparent flex items-center justify-center text-gray-400 hover:border-black hover:text-black transition-all duration-200"
+                >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
                 </button>
-                <button className="w-11 h-11 rounded-full border border-gray-300 bg-transparent flex items-center justify-center text-gray-400 hover:border-black hover:text-black transition-all duration-200">
+                <button
+                  onClick={handleNextTestimonial}
+                  className="w-11 h-11 rounded-full border border-gray-300 bg-transparent flex items-center justify-center text-gray-400 hover:border-black hover:text-black transition-all duration-200"
+                >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                 </button>
               </div>
             </div>
 
-            {/* Testimonial Card 1 */}
-            <div className="bg-white rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[420px]">
-              <div>
-                <svg className="w-12 h-12 text-gray-200 mb-8" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" /></svg>
-                <p className="text-lg md:text-xl leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
-                  Muniba made our home search incredibly simple. Her guide, responsiveness, and local knowledge helped us secure the perfect place much faster.
-                </p>
+            {visibleHomepageTestimonials.map((testimonial, index) => (
+              <div
+                key={`${testimonial.name}-${testimonialStartIndex}-${index}`}
+                className="bg-white rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[420px]"
+              >
+                <div>
+                  <svg className="w-12 h-12 text-gray-200 mb-8" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" /></svg>
+                  <p className="text-lg md:text-xl leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
+                    {testimonial.preview}
+                  </p>
+                </div>
+                <div className="mt-auto pt-8">
+                  <div className="w-16 h-16 rounded-xl bg-pink-400/15 text-pink-500 flex items-center justify-center mb-3">
+                    <span className="text-lg font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      {testimonial.name
+                        .split(" ")
+                        .slice(0, 2)
+                        .map((part) => part[0])
+                        .join("")}
+                    </span>
+                  </div>
+                  <p className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
+                    {testimonial.name}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    {testimonial.role}
+                  </p>
+                </div>
               </div>
-              <div className="mt-auto pt-8">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80" alt="Maria Thompson" className="w-16 h-16 rounded-xl object-cover mb-3" />
-                <p className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Maria Thompson</p>
-                <p className="text-xs text-gray-500 mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>Buyer</p>
-              </div>
-            </div>
-
-            {/* Testimonial Card 2 */}
-            <div className="bg-white rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[420px]">
-              <div>
-                <svg className="w-12 h-12 text-gray-200 mb-8" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" /></svg>
-                <p className="text-lg md:text-xl leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
-                  We felt supported through every step. Clear advice, quick updates, and genuine care made the entire buying experience smooth and stress-free.
-                </p>
-              </div>
-              <div className="mt-auto pt-8">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80" alt="Brian Ruiz" className="w-16 h-16 rounded-xl object-cover mb-3" />
-                <p className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Brian Ruiz</p>
-                <p className="text-xs text-gray-500 mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>First-time Buyer</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -756,7 +801,7 @@ export default function App() {
                 <button
                   onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
                   className="px-6 py-2.5 border border-gray-300 text-sm font-medium rounded-lg hover:bg-black hover:text-white hover:border-black transition-all duration-300"
-                  style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}
+                  style={{ fontFamily: "'Inter', sans-serif"}}
                 >
                   Get in touch
                 </button>
@@ -806,209 +851,6 @@ export default function App() {
 
 
       <Footer />
-
-      {/* Floating Bottom CTA (portal-mounted) */}
-      <FloatingCTA
-        onClick={() => {
-          setShowLeftPopup(true);
-          setTimeout(() => setLeftAnimating(true), 10);
-        }}
-      />
-
-      {/* Left anchored modal triggered by CTA (portal-mounted to avoid stacking context issues) */}
-      {showLeftPopup &&
-        createPortal(
-          <div className="fixed inset-0 z-[110002]">
-            <div
-              className="absolute inset-0 bg-black bg-opacity-50"
-              onClick={() => {
-                setLeftAnimating(false);
-                setTimeout(() => {
-                  setShowLeftPopup(false);
-                  setLeftSubmitted(false);
-                }, 300);
-              }}
-            />
-
-            <div
-              className={`fixed left-4 right-4 bottom-20 sm:left-8 sm:right-auto sm:bottom-24 w-auto sm:w-[320px] md:w-[420px] max-w-[95vw] bg-[#0b0b0b] text-white rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 z-[110003] max-h-[85vh] overflow-y-auto ${
-                leftAnimating
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-6 opacity-0"
-              }`}
-            >
-              <div className="flex items-start justify-between px-4 sm:px-6 pt-4 sm:pt-6">
-                <h3 className="text-xl sm:text-2xl font-serif">
-                  Leave a Message
-                </h3>
-                <button
-                  onClick={() => {
-                    setLeftAnimating(false);
-                    setTimeout(() => {
-                      setShowLeftPopup(false);
-                      setLeftSubmitted(false);
-                    }, 300);
-                  }}
-                  className="bg-white bg-opacity-5 p-1 rounded hover:bg-opacity-10 transition"
-                >
-                  <X className="w-5 h-5 text-white" />
-                </button>
-              </div>
-
-              <div className="px-4 sm:px-6 py-3 sm:py-4">
-                {!leftSubmitted ? (
-                  <form
-                    onSubmit={handleLeftSubmit}
-                    className="space-y-3 sm:space-y-4"
-                  >
-                    <div>
-                      <input
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Full Name"
-                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded-xl text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all duration-300 hover:border-gray-400"
-                      />
-                    </div>
-                    <div>
-                      <input
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Email"
-                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded-xl text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all duration-300 hover:border-gray-400"
-                      />
-                    </div>
-                    <div>
-                      <input
-                        name="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Phone"
-                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded-xl text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all duration-300 hover:border-gray-400"
-                      />
-                    </div>
-                    <div className="relative">
-                      <select
-                        name="interest"
-                        value={formData.interest}
-                        onChange={handleInputChange}
-                        required
-                        className="appearance-none w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded-xl text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all duration-300 hover:border-gray-400"
-                      >
-                        <option value="" disabled>
-                          Interested in...
-                        </option>
-                        <option value="buying">Buying</option>
-                        <option value="selling">Selling</option>
-                        <option value="renting">Renting</option>
-                        <option value="other">Other</option>
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                        <svg
-                          className="w-4 h-4 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-xs text-white mb-2">
-                        Best time to get in touch (Eastern Time Zone)
-                      </label>
-                      <input
-                        name="bestTime"
-                        type="datetime-local"
-                        value={formData.bestTime}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3 py-2 sm:py-3 bg-transparent border border-gray-600 rounded text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/10 transition-colors duration-200 hover:border-white"
-                      />
-                    </div>
-
-                    {leftError && (
-                      <p className="text-red-400 text-sm">{leftError}</p>
-                    )}
-
-                    <div className="flex items-start space-x-3">
-                      <input
-                        id="left-consent"
-                        required
-                        type="checkbox"
-                        className="w-4 h-4 mt-1 accent-white bg-transparent"
-                      />
-                      <label
-                        htmlFor="left-consent"
-                        className="text-xs text-white leading-relaxed"
-                      >
-                        By providing your contact information, you agree to our{" "}
-                        <a href="#" className="underline">
-                          Privacy Policy
-                        </a>{" "}
-                        and consent to receiving marketing communications.
-                      </label>
-                    </div>
-
-                    <div>
-                      <button
-                        type="submit"
-                        disabled={leftLoading}
-                        className="w-full bg-pink-400 text-white py-2 sm:py-3 rounded-xl font-semibold text-sm sm:text-base hover:bg-pink-500 hover:shadow-xl hover:shadow-pink-400/20 transform transition-all duration-300 disabled:opacity-50 hover:-translate-y-0.5"
-                      >
-                        {leftLoading ? "SENDING..." : "Submit"}
-                      </button>
-                    </div>
-                  </form>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg
-                        className="w-6 h-6 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </div>
-                    <p className="mb-4">Thanks — we'll be in touch shortly.</p>
-                    <button
-                      onClick={() => {
-                        setLeftAnimating(false);
-                        setTimeout(() => {
-                          setShowLeftPopup(false);
-                          setLeftSubmitted(false);
-                        }, 300);
-                      }}
-                      className="px-6 py-2 border rounded-full hover:bg-pink-400 hover:text-white hover:border-pink-400 transition-all duration-300"
-                    >
-                      Close
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>,
-          document.body,
-        )}
 
       </div>
     </div>

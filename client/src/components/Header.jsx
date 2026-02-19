@@ -19,7 +19,7 @@ export default function Header({ onBack, light = false }) {
 
     // Header style matching centered white bar design
     const isHome = location.pathname === '/' || location.pathname === '';
-    const linkClass = 'text-[#111112] text-[15px] tracking-[0.02em] font-normal hover:opacity-70 transition-opacity duration-300';
+    const linkClass = 'text-[#111112] text-[15px] tracking-[0.02em] font-normal hover:-translate-y-1 hover:opacity-80 transition-all duration-300 ease-out';
     const iconClass = 'w-4 h-4 text-[#111112]';
     const timeoutRef = useRef(null);
     const [contactOpen, setContactOpen] = useState(false);

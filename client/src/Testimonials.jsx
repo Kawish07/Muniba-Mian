@@ -6,27 +6,56 @@ export default function Testimonials() {
   const testimonials = [
     {
       id: 1,
-      title: "Down to Earth & Stress Free",
+      title: "Missy Scaletta",
       preview:
-        "Don was the listing agent for our home. He is knowledgeable of the real estate market. We greatly appreciated his effort to get us the best price for our home. Don stayed in contact from the day our home was listed to the day our home closed. Most importantly, Don is a down to earth guy who makes a real estate transaction stress free.",
+        "We had the pleasure of working with Muniba to find our perfect home, and she went above and beyond to make sure we found everything we wanted and more. From the start, Muniba was attentive, patient, and incredibly knowledgeable.",
     },
     {
       id: 2,
-      title: "Very Helpful and Kind",
+      title: "Gaurav Maheshwari",
       preview:
-        "Don was very helpful when selling our home. He explained the process was very kind, patient, and polite. We have been able to even ask questions about buying and he has done his best to answer. He went out of his way to make this sale happen and it was done quickly! I always go by reviews and the previous reviewers were spot on with how great he is! The company he works for is lucky to have him on their team! Would highly recommend especially if you are like me and my husband new to this process.",
+        "First time I worked with Muniba when I was looking for a rental house in 2022 and had a really pleasant experience working with her which eventually prompted me to reach out to her again when I was planning to buy a house.",
     },
     {
       id: 3,
-      title: "Highly Recommend Don!",
+      title: "Chruz Cruz",
       preview:
-        "We highly recommend Don! Very dedicated to finding us our home! Very patient with great advise. If we need realtor services in the future, we will definitely contact Don again.",
+        "As a first-time homeowner, I was quite nervous about the process, but working with Muniba made everything so much easier. She was incredibly responsive, always available to answer my questions and address any concerns I had.",
     },
     {
       id: 4,
-      title: "Exceptional Service",
+      title: "Tiara Leah",
       preview:
-        "Don, Don, Don. Where do I start. Would not have purchased my home from anyone other than Don. He was exceptional. He is very knowledgeable and helpful. Highly recommend his services in real estate. When your looking for a home in his area pick Don. You will see what I mean. It's hard to explain how great he is unless you experience him one on one.",
+        "Having worked in real estate for several years, I have encountered both good and bad realtors. Muniba not only lived up to our expectations, but went far above and beyond.",
+    },
+    {
+      id: 5,
+      title: "Jawad Khairkhwa",
+      preview:
+        "Muniba is a great agent. She was able to find us a house in only a few days, quicker than agents who had been working with us for months. She is very quick and smart with her work. Highly recommend working with her.",
+    },
+    {
+      id: 6,
+      title: "Tammy McGinn",
+      preview:
+        "Muniba is a fantastic realtor to work with. She works very hard for her clients, and is an absolute joy to be around. She worked tirelessly to help me find a place in my desired location. Highly recommend.",
+    },
+    {
+      id: 7,
+      title: "Galen Midwinter",
+      preview:
+        "Words have trouble capturing how much I recommend Muniba as a real estate professional. Her tireless dedication, immediate feedback, instant follow up and caring professionalism not only was appreciated but also landed my family a home.",
+    },
+    {
+      id: 8,
+      title: "Fazena Abdul",
+      preview:
+        "Very professional, helpful and honest. Respond promptly to emails and telephone.",
+    },
+    {
+      id: 9,
+      title: "Renganathan V Anand",
+      preview: "Recommended and a true professional.",
     },
   ];
 

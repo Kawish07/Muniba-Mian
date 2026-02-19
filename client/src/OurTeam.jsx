@@ -1,28 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import React, { useEffect, useState } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 const teamMembers = [
   {
-    name: 'Kayode Adekoya',
-    title: 'KM&co Realty',
-    image: '/images/team member male 1.jpeg',
-    email: 'kay21real@gmail.com',
+    name: "Kayode Adekoya",
+    title: "KM&co Realty",
+    image: "/images/team member male 1.jpeg",
+    email: "kay21real@gmail.com",
     socials: [
-      { label: 'Instagram', href: 'https://www.instagram.com/kadekoya/?hl=en' },
-      { label: 'Facebook', href: 'https://www.facebook.com/kayode.adekoya.75/' },
+      { label: "Instagram", href: "https://www.instagram.com/kadekoya/?hl=en" },
+      {
+        label: "Facebook",
+        href: "https://www.facebook.com/kayode.adekoya.75/",
+      },
     ],
-    bio: 'Kayode Adekoya is an award-winning real estate professional dedicated to helping clients confidently buy, sell, and lease property. He holds multiple industry designations, including Accredited Buyer’s Representative (ABR®), Seller Representative Specialist (SRS), Real Estate Negotiation Expert (RENE), and Seniors Real Estate Specialist® (SRES®)—equipping him with specialized expertise in buyer and seller representation, negotiation strategy, and senior-focused transitions. With a background in finance and early exposure to construction and development, Kayode brings strong market insight and analytical skills to every transaction. He works with individuals, families, and investors locally and internationally, helping them make informed real estate decisions with clarity and confidence. A proud husband and father of two, Kayode approaches real estate with energy, dedication, and a genuine passion for helping clients find a place they can truly call home.',
+    bio: "Kayode Adekoya is an award-winning real estate professional dedicated to helping clients confidently buy, sell, and lease property. He holds multiple industry designations, including Accredited Buyer’s Representative (ABR®), Seller Representative Specialist (SRS), Real Estate Negotiation Expert (RENE), and Seniors Real Estate Specialist® (SRES®)—equipping him with specialized expertise in buyer and seller representation, negotiation strategy, and senior-focused transitions. With a background in finance and early exposure to construction and development, Kayode brings strong market insight and analytical skills to every transaction. He works with individuals, families, and investors locally and internationally, helping them make informed real estate decisions with clarity and confidence. A proud husband and father of two, Kayode approaches real estate with energy, dedication, and a genuine passion for helping clients find a place they can truly call home.",
   },
   {
-    name: 'Muniba Mian',
-    title: 'Real Estate Agent',
-    image: '/images/team member female 2.jpg',
+    name: "Muniba Mian",
+    title: "Real Estate Agent",
+    image: "/images/team member female 2.jpg",
     socials: [
-      { label: 'Facebook', href: 'https://www.facebook.com/dealzinheelz.ca/' },
-      { label: 'Instagram', href: 'https://www.instagram.com/dealzinheelz.realestate?igsh=MWRyYmlnbGIzMjk3cA==' },
-      { label: 'TikTok', href: 'https://www.tiktok.com/@dealzinheelz.realestate?_r=1&_t=ZS-93oQ3jmf18x' },
+      { label: "Facebook", href: "https://www.facebook.com/dealzinheelz.ca/" },
+      {
+        label: "Instagram",
+        href: "https://www.instagram.com/dealzinheelz.realestate?igsh=MWRyYmlnbGIzMjk3cA==",
+      },
+      {
+        label: "TikTok",
+        href: "https://www.tiktok.com/@dealzinheelz.realestate?_r=1&_t=ZS-93oQ3jmf18x",
+      },
     ],
-    bio: 'Real estate isn’t just transactions to me — it’s about people, timing, and helping someone make one of the biggest financial decisions of their life with confidence. I work with first-time home buyers, investors, renters, and sellers across the Greater Toronto Area, with a strong focus on the Durham Region. Whether you’re stepping into the market for the first time, growing your portfolio, or preparing to sell, I bring clear guidance, honest conversations, and practical strategy to the table. No jargon. No pressure. Just real support from start to finish. I believe the best results come from understanding your goals first — not pushing a quick deal. Every client’s situation is different, and I take the time to tailor the process so it actually works for you. Real estate can feel overwhelming, but with the right plan and the right partner, it becomes manageable — and even exciting. My path into real estate is rooted in resilience and independence. As a single mom building a career on my own terms, I learned firsthand the value of financial stability, smart decision-making, and creating opportunities rather than waiting for them. That experience shapes how I work today — with empathy, determination, and a genuine commitment to helping others move forward and build something of their own. At the end of the day, my goal is simple: help you make smart, confident moves that set you up for long-term success.',
+    bio: "Real estate isn’t just transactions to me — it’s about people, timing, and helping someone make one of the biggest financial decisions of their life with confidence. I work with first-time home buyers, investors, renters, and sellers across the Greater Toronto Area, with a strong focus on the Durham Region. Whether you’re stepping into the market for the first time, growing your portfolio, or preparing to sell, I bring clear guidance, honest conversations, and practical strategy to the table. No jargon. No pressure. Just real support from start to finish. I believe the best results come from understanding your goals first — not pushing a quick deal. Every client’s situation is different, and I take the time to tailor the process so it actually works for you. Real estate can feel overwhelming, but with the right plan and the right partner, it becomes manageable — and even exciting. My path into real estate is rooted in resilience and independence. As a single mom building a career on my own terms, I learned firsthand the value of financial stability, smart decision-making, and creating opportunities rather than waiting for them. That experience shapes how I work today — with empathy, determination, and a genuine commitment to helping others move forward and build something of their own. At the end of the day, my goal is simple: help you make smart, confident moves that set you up for long-term success.",
   },
 ];
 
@@ -42,7 +51,7 @@ export default function OurTeam() {
       {/* Hero Section */}
       <section className="pt-40 pb-16 md:pt-48 md:pb-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
         <div
-          className={`transition-all duration-1000 ease-out ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`transition-all duration-1000 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
           {/* Small label */}
           <div className="flex items-center gap-3 mb-8">
@@ -58,7 +67,7 @@ export default function OurTeam() {
           {/* Main Heading */}
           <h1
             className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight mb-8"
-            style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}
+            style={{ fontFamily: "'Inter', sans-serif", color: "#111112" }}
           >
             Your trusted
             <br />
@@ -67,12 +76,38 @@ export default function OurTeam() {
 
           {/* Subtitle */}
           <p
-            className="text-base md:text-lg text-gray-500 max-w-xl leading-relaxed"
+            className="text-base md:text-lg text-gray-500 max-w-4xl leading-relaxed text-justify"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            We guide buyers and sellers through every step with clarity,
+            {/* We guide buyers and sellers through every step with clarity,
             offering curated listings, market insight, and personalized
-            service across the Greater Toronto Area.
+            service across the Greater Toronto Area. */}
+            Real estate is about more than transactions — it’s about people,
+            timing, and guiding clients through some of life’s biggest financial
+            decisions with confidence. Together, Muniba and Kayode combine
+            relationship-driven service with strategic expertise to deliver a
+            balanced, results-focused experience for buyers, sellers, renters,
+            and investors across the Greater Toronto Area, with a strong
+            presence in the Durham Region. Muniba brings a client-first approach
+            rooted in empathy, transparency, and practical strategy. Having
+            built her career through resilience and independence, she
+            understands firsthand the importance of financial stability and
+            informed decision-making. She works closely with first-time buyers,
+            growing investors, renters, and sellers, ensuring each client’s
+            goals shape the process — never the other way around. Her focus is
+            on real conversations, personalized guidance, and making complex
+            decisions feel manageable and empowering. Kayode complements that
+            approach with award-winning industry experience and specialized
+            credentials, including ABR®, SRS, RENE, and SRES®. With a background
+            in finance and early exposure to construction and development, he
+            provides sharp market insight, analytical strength, and skilled
+            negotiation to every transaction. He supports individuals, families,
+            and investors locally and internationally, helping them move forward
+            with clarity and confidence. Together, they offer clients the best
+            of both worlds — personalized care backed by strong expertise and
+            strategic execution. Their shared commitment is simple: to help you
+            make informed, confident real estate decisions and achieve outcomes
+            that support your long-term success.
           </p>
         </div>
       </section>
@@ -88,7 +123,7 @@ export default function OurTeam() {
           {teamMembers.map((member, idx) => (
             <div
               key={member.name}
-              className={`group transition-all duration-1000 ease-out ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+              className={`group transition-all duration-1000 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
               style={{ transitionDelay: `${300 + idx * 200}ms` }}
             >
               {/* Photo Container */}
@@ -99,19 +134,20 @@ export default function OurTeam() {
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   onError={(e) => {
                     // Fallback: show initials if image fails
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
+                    e.target.style.display = "none";
+                    e.target.nextSibling.style.display = "flex";
                   }}
                 />
                 {/* Fallback initials */}
-                <div
-                  className="absolute inset-0 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 hidden"
-                >
+                <div className="absolute inset-0 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 hidden">
                   <span
                     className="text-7xl md:text-8xl font-bold text-gray-300"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
-                    {member.name.split(' ').map(n => n[0]).join('')}
+                    {member.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
                   </span>
                 </div>
 
@@ -123,7 +159,10 @@ export default function OurTeam() {
               <div className="mb-4 text-center">
                 <h3
                   className="text-xl md:text-2xl font-semibold tracking-tight mb-1"
-                  style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    color: "#111112",
+                  }}
                 >
                   {member.name}
                 </h3>
@@ -169,7 +208,6 @@ export default function OurTeam() {
               >
                 {member.bio}
               </p>
-
             </div>
           ))}
         </div>
@@ -179,12 +217,12 @@ export default function OurTeam() {
       <section className="bg-[#f5f5f5] py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 text-center">
           <div
-            className={`transition-all duration-1000 ease-out ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ transitionDelay: '600ms' }}
+            className={`transition-all duration-1000 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+            style={{ transitionDelay: "600ms" }}
           >
             <h2
               className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6"
-              style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "#111112" }}
             >
               Ready to find your dream home?
             </h2>
@@ -192,11 +230,13 @@ export default function OurTeam() {
               className="text-base md:text-lg text-gray-500 max-w-lg mx-auto mb-10 leading-relaxed"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              Get in touch with our team and let us help you navigate the
-              real estate market with confidence.
+              Get in touch with our team and let us help you navigate the real
+              estate market with confidence.
             </p>
             <button
-              onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
+              onClick={() =>
+                window.dispatchEvent(new CustomEvent("openContactModal"))
+              }
               className="px-10 py-4 bg-[#111112] text-white text-sm tracking-[0.15em] uppercase font-medium hover:bg-black transition-colors duration-300 rounded-sm"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
