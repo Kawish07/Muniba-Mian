@@ -571,31 +571,59 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right — Content Paragraph */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-8 md:p-12 flex flex-col justify-center h-[580px]">
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Choosing the right real estate partner is more than just completing a transaction it's about guidance, clarity, and building trust. Our team combines award-winning expertise, deep market knowledge, and a personalized approach to ensure every client feels confident at every step. We understand the unique needs of buyers, sellers, renters, and investors, and we tailor our strategies to match each client's goals. With a focus on transparency, proactive communication, and a commitment to results, we help clients make informed decisions, navigate complex processes, and achieve their real estate objectives with confidence.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Personalized guidance for buyers, sellers, and investors</p>
+            {/* Right — Stats grid (coded) */}
+            <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 h-[580px]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 h-full">
+                <div className="rounded-xl border border-gray-100 p-6 flex flex-col justify-between bg-white shadow-sm">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="text-3xl md:text-4xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>84%</div>
+                      <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Close faster</div>
+                    </div>
+                    <div className="text-gray-200">
+                      <svg className="w-7 h-7 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /></svg>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-4">Clients working with skilled agents complete their transactions faster.</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Deep understanding of local and international markets</p>
+
+                <div className="rounded-xl border border-gray-100 p-6 flex flex-col justify-between bg-white shadow-sm">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="text-3xl md:text-4xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>3 in 5</div>
+                      <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Win offers</div>
+                    </div>
+                    <div className="text-gray-200">
+                      <svg className="w-7 h-7 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /></svg>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-4">More than half of our clients secure their ideal home on the first or second offer.</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Clear communication and timely updates throughout every step</p>
+
+                <div className="rounded-xl border border-gray-100 p-6 flex flex-col justify-between bg-white shadow-sm">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="text-3xl md:text-4xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>$5M+</div>
+                      <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Saved yearly</div>
+                    </div>
+                    <div className="text-gray-200">
+                      <svg className="w-7 h-7 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22" /><path d="M5 7h14" /></svg>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-4">We help buyers avoid overpaying while securing value in the market.</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Trusted, ethical, and relationship-focused approach</p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-pink-400 mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Expertise in negotiation, investment strategy, and senior transitions</p>
+
+                <div className="rounded-xl border border-gray-100 p-6 flex flex-col justify-between bg-white shadow-sm">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="text-3xl md:text-4xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>95%</div>
+                      <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Refer friends</div>
+                    </div>
+                    <div className="text-gray-200">
+                      <svg className="w-7 h-7 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="7" r="3" /><path d="M5 21v-2a4 4 0 014-4h6a4 4 0 014 4v2" /></svg>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-4">Most clients recommend our team after experiencing smooth closings.</p>
                 </div>
               </div>
             </div>
