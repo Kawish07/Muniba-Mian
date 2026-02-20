@@ -139,6 +139,7 @@ export default function ContactModal({ open = false, onClose = () => { } }) {
                                         <div>
                                             <p className="text-white text-sm">EMAIL</p>
                                             <p className="text-white">muniba.mian@century21.ca</p>
+                                            <p className="text-white">kay21real@gmail.com</p>
                                         </div>
                                         <div>
                                             <p className="text-white text-sm">ADDRESS</p>

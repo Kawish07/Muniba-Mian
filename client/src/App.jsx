@@ -577,53 +577,53 @@ export default function App() {
                 <div className="rounded-xl border border-gray-100 p-6 flex flex-col justify-between bg-white shadow-sm">
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="text-3xl md:text-4xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>84%</div>
-                      <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Close faster</div>
+                      <div className="text-xl md:text-2xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>GTA & Durham Region</div>
+                      {/* <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Close faster</div> */}
                     </div>
                     <div className="text-gray-200">
                       <svg className="w-7 h-7 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /></svg>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-400 mt-4">Clients working with skilled agents complete their transactions faster.</p>
+                  <p className="text-xs text-gray-400 mt-4">We serve buyers, sellers, renters, and investors across the Greater Toronto Area with a strong presence in the Durham Region.</p>
                 </div>
 
                 <div className="rounded-xl border border-gray-100 p-6 flex flex-col justify-between bg-white shadow-sm">
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="text-3xl md:text-4xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>3 in 5</div>
-                      <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Win offers</div>
+                      <div className="text-xl md:text-2xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>4 Expert Designations</div>
+                      {/* <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Win offers</div> */}
                     </div>
                     <div className="text-gray-200">
                       <svg className="w-7 h-7 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /></svg>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-400 mt-4">More than half of our clients secure their ideal home on the first or second offer.</p>
+                  <p className="text-xs text-gray-400 mt-4">Kayode holds ABR®, SRS, RENE, and SRES® credentials, bringing specialized expertise in buyer representation, negotiation, and senior transitions.</p>
                 </div>
 
                 <div className="rounded-xl border border-gray-100 p-6 flex flex-col justify-between bg-white shadow-sm">
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="text-3xl md:text-4xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>$5M+</div>
-                      <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Saved yearly</div>
+                      <div className="text-xl md:text-2xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>Finance & Development Roots</div>
+                      {/* <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Saved yearly</div> */}
                     </div>
                     <div className="text-gray-200">
                       <svg className="w-7 h-7 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22" /><path d="M5 7h14" /></svg>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-400 mt-4">We help buyers avoid overpaying while securing value in the market.</p>
+                  <p className="text-xs text-gray-400 mt-4">With a background in finance and early exposure to construction and development, Kayode brings sharp analytical skills and market insight to every transaction.</p>
                 </div>
 
                 <div className="rounded-xl border border-gray-100 p-6 flex flex-col justify-between bg-white shadow-sm">
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="text-3xl md:text-4xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>95%</div>
-                      <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Refer friends</div>
+                      <div className="text-xl md:text-2xl font-extrabold text-[#111112]" style={{ fontFamily: "'Inter', sans-serif" }}>People-First Approach</div>
+                      {/* <div className="text-sm text-gray-500 font-medium mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Refer friends</div> */}
                     </div>
                     <div className="text-gray-200">
                       <svg className="w-7 h-7 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="7" r="3" /><path d="M5 21v-2a4 4 0 014-4h6a4 4 0 014 4v2" /></svg>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-400 mt-4">Most clients recommend our team after experiencing smooth closings.</p>
+                  <p className="text-xs text-gray-400 mt-4">Muniba's client-first philosophy is rooted in empathy, transparency, and resilience ensuring every client's goals shape the process, never the other way around.</p>
                 </div>
               </div>
             </div>
@@ -704,7 +704,7 @@ export default function App() {
             <div className="group relative rounded-2xl overflow-hidden bg-black">
               <div className="aspect-[4/5] relative">
                 <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&auto=format&fit=crop&q=80"
+                  src="https://media.istockphoto.com/id/1409298953/photo/real-estate-agents-shake-hands-after-the-signing-of-the-contract-agreement-is-complete.jpg?s=612x612&w=0&k=20&c=SFybbpGMB0wIoI0tJotFqptzAYK_mICVITNdQIXqnyc="
                   alt="Valuation"
                   className="w-full h-full object-cover opacity-60 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500"
                 />
@@ -729,7 +729,7 @@ export default function App() {
       {/* Testimonials — What Our Users Say */}
       <section className="py-24 px-6 md:px-12 lg:px-20 bg-[#f5f5f5] section-pattern-light">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-8 items-start">
+          <div className="grid lg:grid-cols-3 gap-8 items-stretch">
             {/* Left — Heading + Nav Arrows */}
             <div className="flex flex-col justify-between min-h-[420px]">
               <div>
@@ -761,7 +761,7 @@ export default function App() {
             {visibleHomepageTestimonials.map((testimonial, index) => (
               <div
                 key={`${testimonial.name}-${testimonialStartIndex}-${index}`}
-                className="bg-white rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[420px]"
+                className="bg-white rounded-2xl p-8 md:p-10 flex flex-col justify-between h-full min-h-[420px]"
               >
                 <div>
                   <svg className="w-12 h-12 text-gray-200 mb-8" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" /></svg>

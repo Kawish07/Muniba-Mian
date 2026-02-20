@@ -33,7 +33,7 @@ export default function PageLoader({ open = false }) {
 
         <div className="loader-text text-white">
           <h1 className="text-3xl md:text-4xl font-serif mb-3 text-white font-bold">
-            Muniba Mian
+            KM & co realty
           </h1>
           <p className="text-sm md:text-base text-white/70 tracking-wide">
             Bringing you market insights â€” loadingâ€¦
