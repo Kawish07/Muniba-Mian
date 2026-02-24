@@ -290,12 +290,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white relative overflow-x-hidden">
-      {/* Background Grid Lines Pattern */}
-      <div className="fixed inset-0 pointer-events-none z-0" style={{ maxWidth: '1280px', margin: '0 auto', left: 0, right: 0 }}>
-        <div className="absolute inset-y-0 left-[25%] w-px bg-gray-200/60" />
-        <div className="absolute inset-y-0 left-[50%] w-px bg-gray-200/60" />
-        <div className="absolute inset-y-0 left-[75%] w-px bg-gray-200/60" />
-      </div>
+      {/* Background grid removed per request (plain white background) */}
 
       <div className="relative z-10 overflow-x-hidden">
       <PageLoader open={globalLoading} />
@@ -310,10 +305,15 @@ export default function App() {
             src="/images/heromuniba.jpg"
             alt="Luxury modern home exterior"
             className="hero-image w-full h-full object-cover object-center"          />
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
-          <div className="absolute inset-0 section-pattern-dark opacity-40" />
+          {/* Lightened gradient overlays (reduced opacity for brighter hero) */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0.12) 50%, transparent)' }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.28), transparent)' }}
+          />
         </div>
 
         {/* Hero Content */}
@@ -423,10 +423,14 @@ export default function App() {
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-16">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-2 h-2 rounded-full bg-pink-400"></div>
-              <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>Properties</span>
-            </div>
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="flex-1 h-px bg-gray-200"></div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 rounded-full bg-pink-400"></div>
+                  <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>Properties</span>
+                </div>
+                <div className="flex-1 h-px bg-gray-200"></div>
+              </div>
             <h2 className="text-4xl md:text-5xl font-medium" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>Our recent listings</h2>
             {/* Filter Tabs */}
             <div className="flex items-center justify-center space-x-3 mt-6">
@@ -798,9 +802,13 @@ export default function App() {
           <div className="grid lg:grid-cols-12 gap-12 items-start">
             {/* Left — Heading + Agent Card */}
             <div className="lg:col-span-4">
-              <div className="flex items-center space-x-2 mb-6">
-                <div className="w-2 h-2 rounded-full bg-pink-400"></div>
-                <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>FAQ</span>
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="flex-1 h-px bg-gray-200"></div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 rounded-full bg-pink-400"></div>
+                  <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>FAQ</span>
+                </div>
+                <div className="flex-1 h-px bg-gray-200"></div>
               </div>
               <h2 className="text-4xl md:text-5xl font-medium leading-[1.15] mb-16" style={{ fontFamily: "'Inter', sans-serif", color: '#111112' }}>
                 Frequent<br />questions

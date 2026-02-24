@@ -74,12 +74,7 @@ export default function AllListings({ onBack }) {
 
   return (
     <div className="min-h-screen bg-white relative">
-      {/* Background Grid Lines — Luxterra Pattern */}
-      <div className="fixed inset-0 pointer-events-none z-0" style={{ maxWidth: '1280px', margin: '0 auto', left: 0, right: 0 }}>
-        <div className="absolute inset-y-0 left-[25%] w-px bg-gray-200/60" />
-        <div className="absolute inset-y-0 left-[50%] w-px bg-gray-200/60" />
-        <div className="absolute inset-y-0 left-[75%] w-px bg-gray-200/60" />
-      </div>
+      {/* Background grid removed */}
 
       <div className="relative z-10">
       <Header onBack={onBack} light={true} />
@@ -89,15 +84,14 @@ export default function AllListings({ onBack }) {
         <div
           className={`max-w-3xl mx-auto text-center transition-all duration-1000 ease-out ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
-          {/* Pink dot label */}
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="w-2 h-2 rounded-full bg-[#ff66c4]" />
-            <span
-              className="text-xs tracking-[0.2em] uppercase text-gray-500 font-light"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Our properties
-            </span>
+          {/* Centered horizontal line with label */}
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="flex-1 h-px bg-gray-200"></div>
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 rounded-full bg-pink-400"></div>
+              <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>Our properties</span>
+            </div>
+            <div className="flex-1 h-px bg-gray-200"></div>
           </div>
 
           {/* Main Heading */}
