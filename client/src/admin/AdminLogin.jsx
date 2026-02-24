@@ -63,9 +63,9 @@ export default function AdminLogin() {
           <button className="w-full bg-pink-600 hover:bg-pink-700 text-white py-3 rounded-lg font-medium transition">Sign in</button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
+        {/* <div className="mt-6 text-center text-sm text-gray-500">
           <Link to="/admin/forgot" className="text-pink-500 hover:underline">Forgot password?</Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
