@@ -75,12 +75,20 @@ a, button, input, textarea, select, label, [role="button"], input[type="range"] 
 
 /* Hero brand name — Luxterra-style giant text */
 .hero-brand-name {
-	font-family: var(--heading-font) !important;
+	font-family: var(--brand-serif) !important;
 	text-transform: lowercase;
 	letter-spacing: -0.02em;
 	-webkit-text-stroke: 0;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+/* Footer brand name variant */
+.footer-brand-name {
+	font-family: var(--brand-serif) !important;
+	letter-spacing: -0.02em;
+	-webkit-text-stroke: 0px rgba(255,255,255,0.15);
+	white-space: nowrap;
 }
 
 /* Reduce pointer-event work during scroll for heavy overlays */
@@ -108,6 +116,8 @@ select:focus {
 /* Global heading font — modern sans-serif */
 :root {
 	--heading-font: "Poppins", "Inter", system-ui, sans-serif;
+	--brand-serif: "Cinzel", "Cormorant Garamond", serif;
+	--brand-sans: "Montserrat", "Raleway", system-ui, sans-serif;
 	--pink: #ff66c4;
 	--pink-glow: rgba(255,102,196,0.25);
 }

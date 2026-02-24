@@ -352,7 +352,7 @@ export default function App() {
               onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
             >
               <img
-                src="/images/team member female 2.jpg"
+                src="/images/munibanewimage.jpg"
                 alt="Muniba Mian"
                 className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-white/30"
               />
@@ -552,10 +552,10 @@ export default function App() {
             {/* Left — Large image card */}
             <div className="relative overflow-hidden h-[580px] bg-black">
               <img
-                src="images/team member male 1.jpeg"
-                alt="Real estate expert"
-                className="w-full h-full object-cover opacity-70"
-              />
+                  src="/images/logo1.png"
+                  alt="KM & co logo"
+                  className="w-full h-full object-contain object-center opacity-90 bg-white/5"
+                />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 p-6">
                 <div className="flex items-center space-x-2 mb-2">
@@ -810,7 +810,7 @@ export default function App() {
               <div className="mt-auto">
                 <div className="flex items-center gap-3 mb-4">
                   <img
-                    src="/images/team member female 2.jpg"
+                    src="/images/munibanewimage.jpg"
                     alt="Muniba Mian"
                     className="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover"
                   />

@@ -57,6 +57,90 @@ export default function Testimonials() {
       title: "Renganathan V Anand",
       preview: "Recommended and a true professional.",
     },
+    {
+      id: 10,
+      title: "Oyindamola Olawunmi",
+      preview:
+        "I had an amazing experience working with Kayode. He supported me through every step of the process and truly delivered on his promise to be there from start to finish, even after everything was completed.",
+    },
+    {
+      id: 11,
+      title: "Munachi Ekpo",
+      preview:
+        "Kayode got us a home without us ever setting foot in Canada; he was reassuring, calming and encouraging every step of the way.",
+    },
+    {
+      id: 12,
+      title: "owen Dawodu",
+      preview:
+        "Kayode provided exceptional service throughout our rental search. He demonstrated professionalism and dedication, traveling long distances to accommodate viewings and always focusing on finding the right home for us.",
+    },
+    {
+      id: 13,
+      title: "Jessica",
+      preview:
+        "Kayode was a great help in finding our townhouse rental! He was patient throughout the process, answered all our questions, and guided us every step of the way.",
+    },
+    {
+      id: 14,
+      title: "AYABA INSIDER",
+      preview:
+        "It was a pleasure working with Kayode. He was attentive and left no stones unturned in helping us find an apartment that checked all our boxes. Highly recommended.",
+    },
+    {
+      id: 15,
+      title: "Sade Ibidapo-Obe",
+      preview:
+        "I cannot express enough gratitude for the exceptional service provided by Kayode Adekoya in selling our house in record time. He took extraordinary steps to ensure our home was ready and on the market.",
+    },
+    {
+      id: 16,
+      title: "Shouq Alnajjar",
+      preview:
+        "We had a wonderful experience working with Kayode while searching for our rental apartment. He was incredibly friendly, supportive, and patient throughout the entire process.",
+    },
+    {
+      id: 17,
+      title: "Chukwuma Nwankwo",
+      preview:
+        "Kayode is an exceptional realtor. He listens to his clients and offers insightful, informed advice throughout the process.",
+    },
+    {
+      id: 18,
+      title: "Lynda Nwaizu",
+      preview:
+        "I had an amazing experience with Kayode in finding my new home. He listened to my needs, showed great options, and was always available to answer questions.",
+    },
+    {
+      id: 19,
+      title: "Chantel Blackwood",
+      preview:
+        "It was a pleasure working with Kayode. He was professional, communicative, and easy to work with. Everything went smoothly from start to finish.",
+    },
+    {
+      id: 20,
+      title: "Ronke Sangobiyi",
+      preview:
+        "Working with Kayode to secure our lease was a great experience. His professionalism and knowledge are fantastic.",
+    },
+    {
+      id: 21,
+      title: "Ilir Rryta",
+      preview:
+        "One of the best realtors in Whitby. Kayode helped me find a rental unit when others would not; I highly recommend him.",
+    },
+    {
+      id: 22,
+      title: "Chinny Oniovosa",
+      preview:
+        "Kayode was very detail oriented and professional. He communicated throughout the process and was kind through it all.",
+    },
+    {
+      id: 23,
+      title: "Esther Otieno",
+      preview:
+        "We had a short timeline to find what we needed in downtown Toronto. Kayode took time to understand exactly what we were looking for and quickly found suitable listings.",
+    },
   ];
 
   return (

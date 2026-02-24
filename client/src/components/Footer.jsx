@@ -74,6 +74,7 @@ export default function Footer() {
             <p className="text-sm text-gray-500 mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>Contact</p>
             <div className="space-y-2">
               <a href="tel:+14169095662" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>+1 (416) 909-5662</a>
+              <a href="tel:+14162988383" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>+1 (416) 298-8383</a>
               <a href="mailto:muniba.mian@century21.ca" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>muniba.mian@century21.ca</a>
               <a href="mailto:kay21real@gmail.com" className="block text-sm text-white hover:text-gray-400 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>kay21real@gmail.com</a>
               <p className="text-sm text-white leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -86,8 +87,8 @@ export default function Footer() {
       </div>
 
       {/* Giant Brand Name at Bottom */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-8 overflow-hidden">
-        <h2 className="font-bold text-white leading-none select-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Inter', sans-serif", fontSize: 'min(12vw, 160px)', WebkitTextStroke: '1px rgba(255,255,255,0.15)', background: 'linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', lineHeight: '1' }}>
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-8 overflow-visible">
+        <h2 className="font-bold text-white leading-none select-none tracking-tight whitespace-nowrap footer-brand-name" style={{ transform: 'translateX(-4%)', fontSize: 'min(12vw, 160px)', WebkitTextStroke: '1px rgba(255,255,255,0.15)', background: 'linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', lineHeight: '1' }}>
           KM &amp; co Realty.
         </h2>
       </div>

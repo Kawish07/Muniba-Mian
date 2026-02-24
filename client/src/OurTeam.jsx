@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 const teamMembers = [
   {
     name: "Kayode Adekoya",
-    title: "KM&co Realty",
+    title: "Real Estate Agent",
     image: "/images/team member male 1.jpeg",
     email: "kay21real@gmail.com",
     socials: [
@@ -19,7 +19,7 @@ const teamMembers = [
   {
     name: "Muniba Mian",
     title: "Real Estate Agent",
-    image: "/images/team member female 2.jpg",
+    image: "/images/munibanewimage.jpg",
     email: "muniba.mian@century21.ca",
     socials: [
       { label: "Facebook", href: "https://www.facebook.com/dealzinheelz.ca/" },
