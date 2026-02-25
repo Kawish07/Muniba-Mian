@@ -135,7 +135,7 @@ export default function ContactModal({ open = false, onClose = () => { } }) {
                                         <div>
                                             <p className="text-white text-sm">PHONE</p>
                                             <p className="text-white">+1 (416) 909-5662</p>
-                                            <p className="text-white">+1 (416) 298-8383</p>
+                                            <p className="text-white">+1 (416) 857-6183</p>
                                         </div>
                                         <div>
                                             <p className="text-white text-sm">EMAIL</p>

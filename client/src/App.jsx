@@ -342,8 +342,11 @@ export default function App() {
 
           {/* Bottom: giant brand name + floating card */}
           <div className="relative">
-            <h2 className="hero-brand-name text-[12vw] md:text-[10vw] lg:text-[9vw] font-bold text-white leading-none tracking-tight select-none pb-3" style={{ lineHeight: '1', opacity: 0.95 }}>
-              KM & co Realty.
+            <h2 className="hero-brand-name text-[12vw] md:text-[10vw] lg:text-[9vw] font-bold leading-none tracking-tight select-none pb-3" style={{ lineHeight: '1', opacity: 0.95 }}>
+                <span className="brand-gold">KM</span>
+                <span className="mx-2 brand-amp">&amp;</span>
+                <span className="brand-gold">CO</span>
+              <span className="ml-2 brand-realty font-normal"> Realty.</span>
             </h2>
 
             {/* Floating Agent Card */}
@@ -559,6 +562,7 @@ export default function App() {
                   src="/images/logo1.png"
                   alt="KM & co logo"
                   className="w-full h-full object-contain object-center opacity-90 bg-white/5"
+                  style={{ objectPosition: 'center -20%' }}
                 />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 p-6">
@@ -642,14 +646,14 @@ export default function App() {
           <div className="text-center mb-16">
             {/* Horizontal line with label */}
             <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="flex-1 h-px bg-white/10"></div>
+              <div className="flex-1 h-px bg-white/30"></div>
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 rounded-full bg-pink-400"></div>
-                <span className="text-sm text-gray-400 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>Our services</span>
+                <span className="text-sm text-gray-300 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>Our services</span>
               </div>
-              <div className="flex-1 h-px bg-white/10"></div>
+              <div className="flex-1 h-px bg-white/30"></div>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium text-white" style={{ fontFamily: "'Inter', sans-serif" }}>What we offer</h2>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium text-black" style={{ fontFamily: "'Inter', sans-serif" }}>What we offer</h2>
             <p className="text-gray-400 text-base md:text-lg mt-5 max-w-2xl mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
               We help simplify GTA property decisions with<br className="hidden md:block" />
               reliable service, speed & transparency

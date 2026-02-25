@@ -4,6 +4,7 @@
 
 /* Google Fonts import — Modern sans-serif */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap');
 
 /* Smooth scrolling for anchor links */
 html {
@@ -81,6 +82,31 @@ a, button, input, textarea, select, label, [role="button"], input[type="range"] 
 	-webkit-text-stroke: 0;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+.brand-gold {
+	color: #C29E6D !important;
+	font-family: 'Cinzel', var(--brand-serif), serif !important;
+	font-weight: 400 !important;
+	letter-spacing: 3px !important;
+	text-transform: uppercase;
+}
+.brand-amp {
+	color: #FFFFFF !important;
+	/* ensure ampersand uses same serif as KM/CO */
+	font-family: 'Cinzel', var(--brand-serif), serif !important;
+	font-weight: 400 !important;
+	letter-spacing: 3px !important;
+}
+.brand-realty {
+	color: #C29E6D !important;
+	font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	font-weight: 300 !important;
+	letter-spacing: 10px !important;
+	text-transform: uppercase;
+	display: inline-block;
+	font-size: 0.8em !important;
+	margin-left: 40px !important;
 }
 
 /* Footer brand name variant */
