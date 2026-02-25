@@ -675,7 +675,7 @@ export default function App() {
                   <h3 className="text-3xl font-semibold text-white mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>Sale</h3>
                   <p className="text-white/60 text-sm mb-5" style={{ fontFamily: "'Inter', sans-serif" }}>We make finding your perfect property effortless and fast.</p>
                   <Link
-                    to="/listings"
+                    to="/all-listings"
                     className="block w-full text-center py-3 border border-white/30 text-white text-sm font-medium rounded-lg hover:bg-white hover:text-black transition-all duration-300"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
@@ -698,7 +698,7 @@ export default function App() {
                   <h3 className="text-3xl font-semibold text-white mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>Rentals</h3>
                   <p className="text-white/60 text-sm mb-5" style={{ fontFamily: "'Inter', sans-serif" }}>We make finding your perfect rental effortless in GTA neighborhoods.</p>
                   <Link
-                    to="/listings"
+                    to="/all-listings"
                     className="block w-full text-center py-3 border border-white/30 text-white text-sm font-medium rounded-lg hover:bg-white hover:text-black transition-all duration-300"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
